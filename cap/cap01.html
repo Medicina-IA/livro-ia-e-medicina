@@ -1,0 +1,54 @@
+<section class="cap" id="cap01">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 01</p>
+    <h1>Por que a IA entrou na medicina</h1>
+    <p class="cap-sub">A complexidade passou do que cabe numa consulta</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Entender por que a IA chegou à medicina agora, e não há trinta anos.</li>
+      <li>Reconhecer as três frentes de complexidade que pesam sobre o raciocínio clínico.</li>
+      <li>Situar os marcos da IA em saúde e o estado atual da evidência.</li>
+    </ul></div>
+  </div>
+
+  <h2>Perdidos no pensamento</h2>
+  <p>A pergunta que abre o curso é simples: se a ideia de usar computadores para apoiar decisões médicas existe desde os anos 1970, por que ela só ganhou força agora? A resposta curta não é moda nem marketing. Foi a medicina que ficou complexa demais para caber numa única cabeça.</p>
+  <p>Essa é a ideia central do ensaio Lost in Thought, de Obermeyer e Lee, publicado no NEJM em 2017. O argumento é que o limite do médico não é só falta de conhecimento. É o limite da mente humana diante de dados e decisões demais ao mesmo tempo. A frase que usamos aqui é uma paráfrase, não uma citação literal.</p>
+  <figure class="fig"><img src="fig/aula01/perdidos.png" alt="Informação convergindo para uma consulta e transbordando"><figcaption><b>Figura 01.1</b> Exames, notas e imagens chegam de todos os lados para uma única consulta. O que não cabe, em amarelo, transborda.</figcaption></figure>
+  <p>Guarde essa imagem. Ela volta no fim do curso, quando discutirmos como ler e cobrar evidência de qualquer ferramenta de IA.</p>
+
+  <h2>As três complexidades</h2>
+  <p>Vale separar a sobrecarga em três frentes.</p>
+  <p>A primeira é a de <b>dados</b>. Cada paciente gera mais informação do que dá para ler numa consulta: prontuário, exames, imagem, sinais. E esse volume cresce a cada atendimento.</p>
+  <p>A segunda é a de <b>conhecimento</b>. Diretrizes, ensaios clínicos e revisões se acumulam mais rápido do que qualquer pessoa consegue acompanhar.</p>
+  <p>A terceira é a de <b>decisão</b>. O raciocínio clínico precisa combinar muitas variáveis que interagem entre si, e isso acontece em minutos.</p>
+  <figure class="fig"><img src="fig/aula01/complexidades.png" alt="Três cards: dados, conhecimento e decisão"><figcaption><b>Figura 01.2</b> Dados que se acumulam (barras), conhecimento que cresce cada vez mais rápido (curva) e uma decisão que depende de muitas variáveis ligadas entre si (rede).</figcaption></figure>
+  <p>A IA entra justamente onde essas três se cruzam: ela pode ler mais dados do que você, condensar parte do conhecimento e organizar variáveis que interagem. Não substitui o raciocínio, mas pode aliviar a parte que já não cabe na cabeça.</p>
+
+  <h2>O raciocínio clínico deixou de ser distribuído</h2>
+  <p>Há outra mudança, menos falada, na forma como o raciocínio acontece. Antes, um caso difícil era dividido entre várias cabeças: especialistas, tempo de observação, a conversa de corredor. Hoje, a pressão de tempo concentra tudo numa pessoa só, que precisa integrar a informação em minutos, muitas vezes sozinha.</p>
+  <figure class="fig"><img src="fig/aula01/distribuido.png" alt="Antes e agora do raciocínio clínico"><figcaption><b>Figura 01.3</b> À esquerda, várias pessoas em volta do paciente dividindo o raciocínio. À direita, toda a informação chegando a um único médico.</figcaption></figure>
+  <p>Nesse cenário, a IA aparece como uma forma de redistribuir parte desse trabalho. É uma segunda leitura, um alerta, um resumo. A responsabilidade continua sendo de quem decide.</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Pense num plantão com vinte pacientes. Ninguém relê o prontuário inteiro de cada um. Uma ferramenta que destaca quem piorou nas últimas horas não decide por você, mas devolve parte do raciocínio que antes era dividido com outros colegas.</p></aside>
+
+  <h2>De 1970 a 2022</h2>
+  <p>A história da IA em saúde cabe em poucos marcos. Nos anos 1970, o MYCIN, em Stanford, era um sistema especialista feito de regras escritas à mão. Funcionava no laboratório e quase não chegou ao leito.</p>
+  <p>Em 2012 muda o método: o deep learning vence a competição ImageNet de visão computacional. Em vez de escrever regras, o sistema passa a aprendê-las com exemplos. Em 2016, um estudo no JAMA mostra a detecção de retinopatia diabética em fotos de fundo de olho, e em 2018 a FDA autoriza o IDx-DR, primeiro sistema de diagnóstico autônomo. A imagem médica vira a primeira grande vitrine.</p>
+  <p>Em 2022, o ChatGPT leva os modelos de linguagem ao público geral, e a IA generativa sai do laboratório para o bolso de todo mundo.</p>
+  <figure class="fig"><img src="fig/aula01/linha.png" alt="Linha do tempo de 1970 a 2022"><figcaption><b>Figura 01.4</b> Três fases: regras escritas à mão, regras aprendidas com dados e modelos que geram texto.</figcaption></figure>
+
+  <h2>Evidência sobre LLM na clínica</h2>
+  <p>Muita publicação não quer dizer muita evidência de benefício. Uma revisão sistemática publicada na Nature Medicine em 2026 (Chen e colaboradores) contou 4.609 estudos clínicos com modelos de linguagem, revisados por pares, de janeiro de 2022 a setembro de 2025. Só 1.048 usaram dados reais de pacientes, e desses só 19 eram ensaios randomizados prospectivos. O funil é dos modelos de linguagem, não de toda a IA em saúde, mas o ponto vale para o campo: muito estudo, pouca evidência de impacto real no paciente.</p>
+  <figure class="fig"><img src="fig/aula01/evidencia.png" alt="Funil dos estudos clínicos com LLM"><figcaption><b>Figura 01.5</b> O funil da evidência sobre modelos de linguagem na clínica: de 4.609 estudos para 1.048 com dados reais de pacientes e, no fim, 19 ensaios randomizados prospectivos.</figcaption></figure>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Antes de se impressionar com um resultado, pergunte em que ponto do funil o estudo está. Desempenho num conjunto de dados antigo é o começo. Benefício para o paciente, medido de forma prospectiva, é o fim.</p></aside>
+
+  <h2>O que fica</h2>
+  <p>A IA entrou na medicina para ajudar a carregar uma complexidade que já não cabe numa consulta. E, como a evidência ainda é curta, este curso insiste em leitura crítica. Antes de avaliar qualquer ferramenta, porém, é preciso falar a mesma língua. Esse é o assunto da próxima aula.</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>A IA ganhou espaço porque a medicina ficou complexa demais para uma única cabeça, não por moda.</li>
+    <li>A sobrecarga vem de dados, conhecimento e decisão, e a IA atua onde os três se cruzam.</li>
+    <li>O raciocínio, que antes era dividido entre colegas, hoje se concentra num só médico.</li>
+    <li>Das regras dos anos 1970 aos modelos de linguagem, o método mudou: de regras escritas para regras aprendidas.</li>
+    <li>Há muita publicação e pouca evidência de benefício real: por isso a leitura crítica importa.</li>
+  </ul></div>
+</section>

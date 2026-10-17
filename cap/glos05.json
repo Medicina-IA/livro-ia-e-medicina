@@ -1,0 +1,9 @@
+[
+{"termo":"Peso (coeficiente)","def":"Quanto o resultado do modelo muda quando uma variável sobe uma unidade, com as outras paradas."},
+{"termo":"Regressão linear","def":"Modelo que soma variáveis com pesos para prever um desfecho contínuo, como pressão ou dias de internação."},
+{"termo":"Regressão logística","def":"Modelo que passa a soma com pesos por uma curva em S para entregar a probabilidade de um desfecho de sim ou não."},
+{"termo":"Odds ratio","def":"Coeficiente exponenciado da regressão logística: quantas vezes a chance do desfecho muda a cada unidade da variável."},
+{"termo":"Limiar","def":"Ponto de corte na probabilidade que transforma a saída do modelo em classe; é uma decisão clínica, não do modelo."},
+{"termo":"Interpretabilidade","def":"Possibilidade de ler diretamente como cada variável pesa na previsão do modelo."},
+{"termo":"Colinearidade","def":"Situação em que variáveis muito correlacionadas, como peso e IMC, confundem os coeficientes do modelo."}
+]

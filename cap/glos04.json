@@ -1,0 +1,10 @@
+[
+{"termo":"Matriz de dados","def":"Tabela com uma linha por unidade de análise, uma coluna por variável e o desfecho na última coluna."},
+{"termo":"Unidade de análise","def":"O que cada linha da tabela representa, como o paciente, a internação ou o exame; vem da pergunta clínica."},
+{"termo":"Rótulo","def":"A resposta conhecida de cada linha, ou seja, o desfecho que o modelo supervisionado aprende a prever."},
+{"termo":"Validação cruzada","def":"Divisão da base em k partes em que cada parte serve de validação uma vez, e o resultado é a média das rodadas."},
+{"termo":"Validação externa","def":"Teste do modelo em outro hospital ou serviço, diferente daquele em que foi desenvolvido."},
+{"termo":"Aprendizado supervisionado","def":"Paradigma em que o modelo aprende com exemplos que trazem a resposta certa."},
+{"termo":"Aprendizado não supervisionado","def":"Paradigma sem resposta certa, em que o modelo agrupa casos parecidos por conta própria."},
+{"termo":"Aprendizado por reforço","def":"Paradigma em que o sistema age, recebe uma recompensa e ajusta uma sequência de decisões."}
+]

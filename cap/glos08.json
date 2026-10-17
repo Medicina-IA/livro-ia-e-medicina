@@ -1,0 +1,10 @@
+[
+{"termo":"Aprendizado não supervisionado","def":"Família de métodos que procura estrutura nos dados sem uma coluna de desfecho para aprender."},
+{"termo":"K-means","def":"Algoritmo de clusterização que posiciona k centros e atribui cada paciente ao centro mais próximo."},
+{"termo":"Redução de dimensão","def":"Técnica que resume muitas variáveis em poucos eixos, como o PCA e o UMAP, para visualizar ou alimentar outro modelo."},
+{"termo":"Censura","def":"Situação do paciente que sai do acompanhamento ou chega ao fim do estudo sem o evento, sem que se saiba o que aconteceu depois."},
+{"termo":"Kaplan-Meier","def":"Método descritivo que desenha a curva de sobrevida em degraus e compara grupos, sem ajustar por outras variáveis."},
+{"termo":"Modelo de Cox","def":"Modelo de sobrevida que ajusta por variáveis e expressa cada peso como hazard ratio, supondo riscos proporcionais."},
+{"termo":"Hazard ratio","def":"Forma em que os pesos do modelo de Cox aparecem nos artigos: acima de 1, mais risco; abaixo de 1, menos."},
+{"termo":"Eventos competitivos","def":"Eventos que impedem o evento de interesse de acontecer, como morrer de outra causa antes, e que exigem métodos próprios."}
+]

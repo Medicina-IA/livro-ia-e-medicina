@@ -1,0 +1,58 @@
+<section class="cap" id="cap05">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 05</p>
+    <h1>Modelos lineares</h1>
+    <p class="cap-sub">Os modelos mais antigos e mais usados da medicina: uma soma com pesos</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Entender o modelo linear como uma soma de variáveis, cada uma com seu peso.</li>
+      <li>Distinguir regressão linear, para desfechos numéricos, de regressão logística, para desfechos de sim ou não.</li>
+      <li>Separar o que o modelo entrega, uma probabilidade, da decisão clínica de onde cortar.</li>
+    </ul></div>
+  </div>
+
+  <p>Com esta aula começa o nível intermediário. Daqui até a Aula 09, cada capítulo apresenta uma família de algoritmos, sempre na mesma ordem: o que é, como funciona, quando usar e onde falha. Começamos pelos modelos mais antigos e mais usados na medicina, a regressão linear e a regressão logística. Você já os encontrou em quase todo artigo clínico que leu, mesmo sem chamá-los de machine learning.</p>
+
+  <h2>Uma soma com pesos</h2>
+  <p>Todo modelo linear faz a mesma coisa: cada variável entra com um peso, e o modelo soma tudo. Imagine que você quer estimar a pressão sistólica esperada de um paciente a partir da idade, do IMC e do consumo de sal. Cada uma dessas variáveis recebe um peso, representado pela letra grega beta (β), e o resultado é a soma ponderada.</p>
+  <p>O peso tem uma leitura direta: ele diz quanto o resultado muda quando aquela variável sobe uma unidade, com as outras paradas. Os pesos são exatamente o que o modelo aprende durante o treino.</p>
+  <figure class="fig"><img src="fig/aula05/soma.png" alt="Três variáveis ligadas a um somatório que gera a pressão esperada"><figcaption><b>Figura 05.1</b> Idade, IMC e consumo de sal entram no somatório (Σ), que entrega a pressão esperada em mmHg. A espessura de cada linha mostra o tamanho do peso. O desenho é ilustrativo: as espessuras não vêm de nenhum estudo.</figcaption></figure>
+  <p>A grande vantagem desse formato é que dá para ler os pesos. Isso se chama interpretabilidade. Não por acaso, muitos escores clínicos nasceram assim: alguém ajustou um modelo linear e arredondou os pesos para que virassem pontos somáveis à beira do leito.</p>
+
+  <h2>Quando o desfecho é um número</h2>
+  <p>A regressão linear serve para desfechos contínuos: pressão em mmHg, glicemia em mg/dL, dias de internação, dose. No gráfico abaixo, cada ponto é um paciente. A reta é a previsão do modelo, e a distância vertical entre o ponto e a reta é o erro daquele paciente.</p>
+  <figure class="fig"><img src="fig/aula05/linear.png" alt="Pontos de pressão sistólica por idade com uma reta ajustada"><figcaption><b>Figura 05.2</b> Pressão sistólica no eixo vertical, idade no horizontal. Os traços amarelos entre os pontos e a reta são os erros de cada paciente. Os pontos são ilustrativos, sem dados reais.</figcaption></figure>
+  <p>Como o modelo escolhe a reta? Ele procura aquela que deixa os erros, somados, o menor possível. Tecnicamente, é a soma dos erros ao quadrado, mas a ideia basta. Guarde uma consequência: a reta supõe que o efeito é igual em toda a faixa. Se a relação verdadeira for curva, o modelo erra nos extremos.</p>
+
+  <h2>Quando o desfecho é sim ou não</h2>
+  <p>Boa parte das perguntas clínicas é binária: óbito ou não, readmissão ou não, diagnóstico ou não. Para elas existe a regressão logística. A lógica é a mesma soma com pesos, mas a soma pode dar qualquer número, inclusive negativo. Por isso o resultado passa por uma curva em S, a função logística, que o espreme entre 0% e 100%. O que sai do modelo é uma probabilidade.</p>
+  <figure class="fig"><img src="fig/aula05/logistica.png" alt="Curva em S entre 0% e 100% separando pacientes com e sem o desfecho"><figcaption><b>Figura 05.3</b> Em cima, os pacientes que tiveram o desfecho (pontos cheios); embaixo, os que não tiveram (pontos vazios). A curva em S passa entre os dois grupos e transforma a soma em probabilidade. Desenho ilustrativo.</figcaption></figure>
+  <p>Na regressão logística, os pesos ganham uma leitura conhecida. O coeficiente exponenciado é o odds ratio: quantas vezes a chance do desfecho muda a cada unidade da variável. É o número que aparece nas tabelas dos artigos.</p>
+
+  <h2>Regressão logística é classificação?</h2>
+  <p>Essa é a confusão clássica. É comum ouvir que a regressão logística é um classificador. Não é bem assim. Leia o fluxo da esquerda para a direita: o modelo entrega uma probabilidade, por exemplo 30%. A classe, alto ou baixo risco, só aparece depois que alguém define um limiar.</p>
+  <figure class="fig"><img src="fig/aula05/classificacao.png" alt="Fluxo em quatro caixas: modelo, probabilidade, limiar e classe"><figcaption><b>Figura 05.4</b> O modelo entrega 30%. A caixa tracejada do limiar é a decisão clínica de onde cortar. Só depois dela surgem as classes de alto e baixo risco.</figcaption></figure>
+  <p>O limiar não pertence ao modelo. É uma decisão clínica. E jogar fora a probabilidade para ficar só com sim ou não desperdiça informação: depois do corte, um paciente com 51% e outro com 99% podem virar a mesma coisa.</p>
+
+  <h2>Mover o limiar troca um erro pelo outro</h2>
+  <p>Imagine as probabilidades que o modelo dá para dois grupos: quem não tem a doença e quem tem. As duas distribuições sempre se sobrepõem um pouco. Onde você coloca o corte decide que tipo de erro aceita.</p>
+  <figure class="fig"><img src="fig/aula05/limiar.png" alt="Duas curvas sobrepostas, sem e com a doença, com dois limiares"><figcaption><b>Figura 05.5</b> Em verde, as probabilidades de quem não tem a doença; em amarelo, de quem tem. A linha do limiar baixo deixa quase todos os doentes à direita; a do limiar alto deixa passar poucos sadios. Desenho ilustrativo.</figcaption></figure>
+  <p>Com um limiar baixo, quase todos os doentes ficam acima do corte, mas muitos sadios também. Você não perde casos e aceita mais alarmes falsos. É o desenho de uma triagem. Com um limiar alto, poucos sadios passam, mas alguns doentes ficam de fora. É o que você quer antes de um procedimento de risco. O mesmo modelo, dois limiares, dois usos. Essa escolha volta no nível avançado, quando falarmos de utilidade clínica.</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Suponha um modelo de risco de sepse no pronto-socorro. Se o objetivo é chamar atenção precoce da equipe, um limiar baixo faz sentido: alguns alarmes a mais custam pouco. Se o mesmo número fosse usado para indicar um procedimento invasivo, o limiar teria de subir. Ao receber uma ferramenta, pergunte quem escolheu o corte e com que objetivo.</p></aside>
+
+  <h2>Quando usar e onde falha</h2>
+  <p>A indicação é clara: dados em tabela, base pequena ou média e necessidade de explicar cada peso. Em muitos estudos com dados clínicos tabulares, a regressão logística empata com modelos bem mais complexos. Uma revisão sistemática de 71 estudos não achou vantagem de desempenho do machine learning sobre a regressão logística em modelos de predição clínica (Christodoulou e colaboradores, 2019). Por isso ela é a linha de base: todo modelo novo precisa ganhar dela.</p>
+  <p>As limitações são três. A primeira é a não linearidade. Idade e risco nem sempre crescem em linha reta, e o modelo simples enxerga uma reta onde a relação é curva. Isso precisa ser modelado, com splines ou faixas. A segunda é a interação. Se o efeito de um remédio muda conforme a função renal, essa interação precisa ser escrita no modelo; ele não a descobre sozinho. A terceira é a colinearidade: variáveis muito correlacionadas, como peso e IMC juntos, confundem os coeficientes.</p>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>Um peso só se lê "com as outras variáveis paradas". Quando duas variáveis andam juntas, como peso e IMC, o modelo não consegue separar o efeito de cada uma, e os coeficientes ficam confusos. Não tire conclusão clínica de um coeficiente isolado sem olhar o que mais entrou no modelo.</p></aside>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Quando um estudo apresenta um modelo novo e sofisticado, procure se ele foi comparado com uma regressão logística bem feita, com não linearidades e interações tratadas. Se a comparação não existe, ou foi feita contra uma regressão mal especificada, a vantagem anunciada pode não existir.</p></aside>
+
+  <h2>O que fica</h2>
+  <p>Regressão linear para desfecho numérico, regressão logística para probabilidade, e o limiar como decisão clínica. Mas nem toda relação é uma soma. Quando o efeito de uma variável depende de outra, e de outra ainda, entram as árvores, assunto da próxima aula.</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>Um modelo linear soma as variáveis, cada uma com um peso que dá para ler.</li>
+    <li>Regressão linear prevê um número; regressão logística prevê uma probabilidade, e seus pesos viram odds ratio.</li>
+    <li>A classificação não está no modelo: está no limiar, que é uma decisão clínica.</li>
+    <li>Limiar baixo serve para triagem, limiar alto para antes de um procedimento de risco.</li>
+    <li>A regressão logística é a linha de base: falha com relações curvas, interações e variáveis correlacionadas.</li>
+  </ul></div>
+</section>

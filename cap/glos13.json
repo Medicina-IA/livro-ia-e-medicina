@@ -1,0 +1,8 @@
+[
+{"termo": "Viés algorítmico", "def": "Erro sistemático de um modelo que prejudica um grupo de pacientes, muitas vezes herdado da escolha do desfecho ou dos dados."},
+{"termo": "Monitoramento contínuo", "def": "Acompanhamento do desempenho de um modelo depois da implantação, para detectar quando ele piora."},
+{"termo": "Software como dispositivo médico", "def": "Software que influencia diagnóstico ou tratamento e, por isso, pode precisar de registro na Anvisa."},
+{"termo": "PCCP", "def": "Plano de mudança predeterminado da FDA, que permite atualizar um modelo dentro de regras aprovadas antes."},
+{"termo": "TRIPOD+AI", "def": "Checklist do que um artigo de modelo preditivo com IA precisa relatar."},
+{"termo": "PROBAST+AI", "def": "Ferramenta para avaliar risco de viés e aplicabilidade de um modelo de predição."}
+]

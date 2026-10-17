@@ -1,0 +1,9 @@
+[
+{"termo":"Árvore de decisão (CART)","def":"Modelo em forma de fluxograma, em que cada nó faz uma pergunta de sim ou não e cada folha dá uma resposta."},
+{"termo":"Sobreajuste (overfitting)","def":"Quando o modelo aprende as particularidades da amostra de treino em vez do padrão da doença e erra no paciente novo."},
+{"termo":"Random forest","def":"Conjunto de árvores treinadas com pacientes e variáveis sorteados, cuja previsão é o voto da maioria."},
+{"termo":"Gradient boosting","def":"Conjunto de árvores pequenas treinadas em fila, cada uma corrigindo o erro da anterior, somadas na previsão final."},
+{"termo":"Ensemble","def":"Modelo que combina muitos modelos simples, como árvores, para errar menos que cada um isolado."},
+{"termo":"Importância de variável","def":"Medida de quanto cada variável ajudou o modelo a prever, que não indica causa."},
+{"termo":"Recalibração","def":"Ajuste das probabilidades de um modelo para que correspondam ao risco observado antes do uso clínico."}
+]

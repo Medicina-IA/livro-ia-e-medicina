@@ -1,0 +1,63 @@
+<section class="cap" id="cap09">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 09</p>
+    <h1>Redes neurais e CNN</h1>
+    <p class="cap-sub">O salto da imagem médica, e os atalhos que derrubam os modelos</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Reconhecer no neurônio artificial a regressão logística da Aula 05 e entender o que muda quando se empilham camadas.</li>
+      <li>Entender como uma rede aprende e como a rede convolucional vai da imagem ao achado.</li>
+      <li>Identificar o aprendizado por atalho e saber por que a validação externa é obrigatória em imagem.</li>
+    </ul></div>
+  </div>
+
+  <p>Esta é a última aula do nível intermediário. Ela responde três perguntas: o que é uma rede neural, como ela aprende e por que as redes convolucionais mudaram a imagem médica. E termina no cuidado que mais derruba modelos de imagem: os atalhos.</p>
+
+  <h2>Um neurônio artificial é uma velha conhecida</h2>
+  <p>Comece pelo menor pedaço da rede. Um neurônio artificial recebe algumas entradas, por exemplo idade, lactato e PAS, multiplica cada uma por um peso, soma tudo e passa o resultado por uma função de ativação. Se essa ativação for a curva em S, a saída é uma probabilidade.</p>
+  <figure class="fig"><img src="fig/aula09/neuronio.png" alt="Três entradas com pesos, somatório, curva de ativação e saída em probabilidade"><figcaption><b>Figura 09.1</b> Da esquerda para a direita: idade, lactato e PAS entram com pesos (a espessura das linhas), passam pelo somatório (Σ), pela ativação em S e saem como probabilidade. Desenho ilustrativo.</figcaption></figure>
+  <p>Se o desenho parece familiar, é porque é. Um neurônio sozinho, com ativação em S, é exatamente a regressão logística da Aula 05. O nome vem de uma analogia antiga com o neurônio biológico: analogia, não semelhança real. O poder da rede vem de juntar milhares desses neurônios. Nas camadas internas, a ativação mais usada hoje é a ReLU, que devolve zero para valores negativos e o próprio valor para positivos.</p>
+
+  <h2>Empilhar camadas, ganhar abstração</h2>
+  <p>Numa rede, cada camada de neurônios recebe a saída da anterior e aprende a combiná-la. As primeiras camadas captam padrões simples; as seguintes, combinações desses padrões.</p>
+  <figure class="fig"><img src="fig/aula09/camadas.png" alt="Rede com três entradas, duas camadas ocultas de cinco neurônios e uma saída"><figcaption><b>Figura 09.2</b> Três entradas, duas camadas ocultas de cinco neurônios e uma saída. Cada bolinha é um neurônio e cada linha é um peso. O caminho destacado em verde mostra um sinal atravessando a rede.</figcaption></figure>
+  <p>As camadas do meio se chamam ocultas porque ninguém define o que elas representam: a rede descobre sozinha. É o que vimos na Aula 02, quando dissemos que o deep learning aprende as próprias variáveis. "Profunda" quer dizer muitas camadas ocultas, e é daí que vem o deep de deep learning. Mais camadas trazem mais capacidade, e também a necessidade de mais dados para não decorar.</p>
+
+  <h2>Errar, medir o erro, ajustar</h2>
+  <p>O aprendizado de uma rede segue um ciclo. Um lote de casos entra na rede, ela faz uma previsão, a previsão é comparada com o gabarito, que é o laudo real, e sai o tamanho do erro.</p>
+  <figure class="fig"><img src="fig/aula09/treino.png" alt="Ciclo de treino: dados, rede, previsão, erro e gabarito, com seta de retorno"><figcaption><b>Figura 09.3</b> Dados entram na rede, que prevê 72% de chance. A previsão é comparada com o gabarito e gera o erro. A seta amarela tracejada, que volta do erro até a rede, é o aprendizado. Valores ilustrativos.</figcaption></figure>
+  <p>O erro então volta pela rede, e cada peso é ajustado um pouco. Esse processo tem nome: retropropagação (backpropagation), com descida do gradiente. Uma passada por toda a base de treino se chama época, e o ciclo se repete milhares de vezes, de olho na validação, para parar antes de decorar. É a mesma lógica da Aula 04. Como as redes têm milhões de pesos, precisam de muitos exemplos rotulados e de computação pesada.</p>
+
+  <h2>Da imagem ao achado, camada por camada</h2>
+  <p>A rede convolucional, ou CNN (convolutional neural network), é a rede feita para imagem. Seu elemento central é o filtro: uma pequena janela de pesos que passa por toda a imagem procurando um padrão. Como o mesmo filtro percorre a imagem inteira, a CNN acha a lesão onde quer que ela esteja.</p>
+  <figure class="fig"><img src="fig/aula09/cnn.png" alt="Cinco quadros da imagem de tórax até a chance do achado"><figcaption><b>Figura 09.4</b> A imagem entra como pixels. As primeiras camadas acham bordas e contrastes (o quadradinho amarelo no canto do segundo quadro é a janela do filtro); as do meio, texturas e formas; as finais, o nódulo inteiro. A saída é a chance do achado. Desenhos ilustrativos.</figcaption></figure>
+  <p>O ponto mais importante: ninguém disse à rede o que é borda ou nódulo. Ela aprendeu esses filtros sozinha, a partir de exemplos laudados. A mesma ideia funciona em sinais de uma dimensão, como o ECG, deslizando o filtro ao longo do tempo.</p>
+
+  <h2>Onde a CNN chegou primeiro</h2>
+  <p>As primeiras vitrines foram três especialidades. Na oftalmologia, a triagem de retinopatia diabética em fotos de fundo de olho, com o estudo de Gulshan e colaboradores no JAMA, em 2016. Na dermatologia, lesões de pele em fotos clínicas e dermatoscopia, com Esteva e colaboradores na Nature, em 2017. Na radiologia, radiografias de tórax, fraturas e mamografia, área com muitos estudos; um exemplo é o rastreamento de câncer de mama em mamografia, avaliado no Reino Unido e nos Estados Unidos (McKinney e colaboradores, Nature, 2020).</p>
+  <p>A imagem chegou primeiro porque já havia grandes bases de imagens laudadas, ou seja, rótulos prontos. Mas desempenho alto em estudo retrospectivo não garante benefício ao paciente, tema que volta no nível avançado.</p>
+
+  <h2>Quando a rede acerta pelo motivo errado</h2>
+  <p>O aprendizado por atalho (shortcut learning) acontece quando a rede acerta pelo motivo errado. Ela encontra uma pista na imagem que acompanha o diagnóstico na base de treino, mas que não tem nada a ver com a doença.</p>
+  <figure class="fig"><img src="fig/aula09/atalhos.png" alt="Três radiografias de tórax esquemáticas mostrando onde a rede olhou e onde deveria olhar"><figcaption><b>Figura 09.5</b> Em amarelo, onde a rede olhou; no círculo tracejado verde, onde deveria olhar. Na primeira, a etiqueta do hospital; na segunda, letreiros e marcadores; na terceira, o dreno. Desenhos ilustrativos.</figcaption></figure>
+  <p>Três exemplos ilustram o problema. No primeiro, um modelo de radiografia reconhecia o hospital de origem, e com ele a prevalência, não a pneumonia (Zech e colaboradores, 2018). No segundo, modelos de COVID em radiografia olhavam letreiros e marcadores laterais, não o pulmão (DeGrave e colaboradores, 2021). No terceiro, um modelo de pneumotórax acertava bem mais quando via o dreno, que só aparece em quem já foi tratado (Oakden-Rayner e colaboradores, 2020).</p>
+  <p>Por isso a validação externa, em outro hospital e com outro aparelho, é obrigatória para modelos de imagem. Os mapas de calor ajudam a desconfiar, mas também enganam: mostram onde a rede olhou, não por que decidiu.</p>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>Pergunte sempre: a rede está olhando para onde eu olharia? Um modelo que detecta pneumotórax só em quem já tem dreno é inútil justamente no paciente que ainda precisa do diagnóstico. O desempenho no estudo pode ser excelente e o valor clínico, nenhum.</p></aside>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Num estudo de imagem, procure se houve validação externa, em outro hospital, outro aparelho ou outro protocolo. Veja também quem fez os laudos usados como gabarito e com que critério. Desconfie de mapas de calor apresentados como explicação: eles mostram onde a rede olhou, não por que ela decidiu.</p></aside>
+
+  <h2>Quando usar e onde falha</h2>
+  <p>A indicação é dado não estruturado, imagem, sinal ou texto, em grande volume e com rótulo de qualidade. O rótulo costuma ser o gargalo: quem laudou, com que critério?</p>
+  <p>As limitações são três. A primeira é a generalização: mudou o aparelho, o protocolo ou a população, de um hospital para outro, o desempenho pode cair. A segunda é a explicabilidade: mapas de calor ajudam pouco a saber por que a rede decidiu. A terceira é que, em tabela de prontuário, a rede raramente ganha da regressão e do boosting, e costuma não compensar o custo (Christodoulou e colaboradores, 2019; Grinsztajn e colaboradores, 2022).</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Imagine que seu hospital vai adotar um modelo de radiografia de tórax treinado em outro serviço. Antes de confiar no número do fabricante, pergunte se ele foi testado com o seu aparelho e a sua população. Se não foi, o desempenho anunciado é uma promessa, não uma medida.</p></aside>
+
+  <h2>Fechamos o intermediário</h2>
+  <p>Em cinco aulas, cinco famílias. Na Aula 05, os modelos lineares somam variáveis com pesos e entregam um número ou uma probabilidade. Na Aula 06, árvores, random forest e gradient boosting capturam interações e trocam um pouco de explicação por desempenho. Na Aula 07, SVM, KNN e Naive Bayes traçam fronteiras, olham vizinhos e multiplicam probabilidades. Na Aula 08, o não supervisionado procura grupos e a sobrevida trata do tempo até o evento. Na Aula 09, as redes neurais e a CNN levaram o deep learning à imagem médica.</p>
+  <p>A ideia que atravessou todas: cada algoritmo tem uma indicação e um jeito próprio de falhar. No nível avançado, a Aula 10 trata de sequência e linguagem, de RNN a transformers e LLM, e depois de como avaliar se um modelo serve na clínica.</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>Um neurônio com ativação em S é a regressão logística; a rede ganha poder ao empilhar milhares em camadas ocultas.</li>
+    <li>A rede aprende devolvendo o erro e ajustando os pesos, de olho na validação para não decorar.</li>
+    <li>A CNN usa filtros que percorrem a imagem e aprende sozinha de bordas até achados clínicos.</li>
+    <li>Atalhos fazem a rede acertar pelo motivo errado, e só a validação externa os revela.</li>
+    <li>Use redes com imagem, sinal ou texto bem rotulados; em tabela de prontuário, raramente compensam.</li>
+  </ul></div>
+</section>

@@ -1,0 +1,9 @@
+[
+{"termo": "Discriminação", "def": "Capacidade de um modelo de ordenar os pacientes, dando escore maior a quem tem o desfecho do que a quem não tem."},
+{"termo": "Matriz de confusão", "def": "Tabela que cruza o que o modelo disse com o que de fato aconteceu: verdadeiros e falsos positivos, verdadeiros e falsos negativos."},
+{"termo": "VPP", "def": "Valor preditivo positivo: entre os alertas do modelo, a proporção que era real; cai quando a prevalência é baixa."},
+{"termo": "VPN", "def": "Valor preditivo negativo: entre os resultados negativos do modelo, a proporção que estava correta."},
+{"termo": "AUROC", "def": "Área sob a curva ROC, também chamada estatística C: a chance de um doente sorteado receber escore maior que um não doente sorteado."},
+{"termo": "AUPRC", "def": "Área sob a curva precisão-recall, cuja linha de base é a prevalência; útil quando o desfecho é raro."},
+{"termo": "Fadiga de alarme", "def": "Perda de atenção da equipe a alertas que disparam vezes demais, muitas delas falsas."}
+]

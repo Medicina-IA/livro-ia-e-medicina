@@ -1,0 +1,60 @@
+<section class="cap" id="cap12">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 12</p>
+    <h1>Calibração e utilidade clínica</h1>
+    <p class="cap-sub">O número é verdadeiro? E vale a pena usar?</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Ler uma curva de calibração e os dois números que a resumem.</li>
+      <li>Entender por que um modelo descalibra e quando dá para recalibrar.</li>
+      <li>Saber o que é benefício líquido e como ler uma curva de decisão.</li>
+    </ul></div>
+  </div>
+
+  <h2>O risco que o modelo diz é o risco real?</h2>
+  <p>Na aula passada, a pergunta foi se o modelo ordena bem. Agora vêm duas outras: o número que ele dá é verdadeiro? E vale a pena usar? São as duas perguntas que mais faltam nos artigos.</p>
+  <p>Comece por uma imagem simples. Se o modelo diz 20% para 100 pacientes, cerca de 20 deles devem ter o desfecho. Isso é <b>calibração</b>: a concordância entre o risco previsto e o risco observado.</p>
+  <p>Quando você conversa com o paciente sobre risco, usa o número absoluto. Esse número precisa ser verdadeiro. Discriminação é ordenar; calibração é acertar o tamanho. Lembre do exemplo da aula anterior: dobrar todos os riscos mantém a AUROC e destrói a calibração.</p>
+
+  <h2>Previsto contra observado</h2>
+  <p>A <b>curva de calibração</b> põe o risco previsto no eixo x e o observado no eixo y. Para montá-la, agrupam-se os pacientes por faixa de risco previsto e compara-se cada faixa com a proporção que de fato teve o desfecho. Hoje se prefere uma curva suavizada a poucos grupos, mas a leitura é a mesma.</p>
+  <figure class="fig"><img src="fig/aula12/curva.png" alt="Curva de calibração amarela abaixo da diagonal tracejada"><figcaption><b>Figura 12.1</b> Uma curva de calibração ilustrativa. A diagonal tracejada é a calibração perfeita. A curva amarela, com seus pontos por faixa de risco, vai se afastando para baixo da diagonal à medida que o risco previsto sobe: o modelo superestima o risco nas faixas altas.</figcaption></figure>
+  <p>Na diagonal, o modelo acerta o tamanho do risco. Abaixo dela, superestima: diz, por exemplo, 60% quando o observado é bem menor. Acima dela, subestima. O padrão da figura, superestimar nas faixas altas, é comum quando o modelo vai para outra população.</p>
+
+  <h2>Dois números para procurar no artigo</h2>
+  <p>A curva costuma vir acompanhada de dois números.</p>
+  <p>A <b>calibração em grande</b> (calibration-in-the-large) pergunta se o risco médio previsto bate com a taxa observada. O ideal é a média igual. Ela mostra se o modelo erra para cima ou para baixo em todo mundo.</p>
+  <p>A <b>inclinação</b> (calibration slope) tem ideal igual a 1. Abaixo de 1, as previsões são extremas demais: os riscos altos estão altos demais e os baixos, baixos demais. É sinal de <b>sobreajuste</b>, o que acontece quando o modelo decorou o treino.</p>
+  <figure class="fig"><img src="fig/aula12/grande.png" alt="Dois cards: calibração em grande e inclinação"><figcaption><b>Figura 12.2</b> Os dois números da calibração, cada um com o seu valor ideal no alto do card: média igual para a calibração em grande e 1 para a inclinação.</figcaption></figure>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Um artigo que mostra só AUROC e não mostra calibração em grande e inclinação está incompleto. Procure a curva de calibração, de preferência suavizada, e os dois números. Se a inclinação estiver abaixo de 1, desconfie de sobreajuste.</p></aside>
+
+  <h2>Por que um modelo descalibra</h2>
+  <p>Há três motivos principais. O primeiro é <b>outra população</b>: a taxa do desfecho é diferente da do treino. O segundo é <b>o tempo</b>: tratamento e prática mudaram desde que o modelo foi feito. O terceiro é o <b>sobreajuste</b>: o modelo decorou o treino.</p>
+  <p>Escores criados em outro país ou em outra década costumam superestimar ou subestimar o risco localmente. A boa notícia é que muitas vezes dá para <b>recalibrar</b> com dados locais, sem treinar tudo de novo. Recalibrar é ajustar o intercepto, que é o nível médio, e, se preciso, a inclinação, usando uma amostra do próprio serviço. A ordem dos pacientes costuma se manter; o que se corrige é o tamanho do número.</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Seu serviço quer adotar um escore de risco desenvolvido em outro país. Antes de usar o número na conversa com o paciente, vale olhar como ele se comporta nos seus próprios pacientes. Se a ordem estiver boa e só o nível estiver deslocado, uma recalibração com dados locais pode resolver.</p></aside>
+
+  <h2>O modelo muda a decisão para melhor?</h2>
+  <p>Um modelo pode discriminar e calibrar bem e ainda assim não ajudar ninguém, se a decisão já seria a mesma sem ele. Por isso a terceira pergunta é a <b>utilidade clínica</b>.</p>
+  <p>A comparação justa não é com o acaso. É com o que se faria hoje sem o modelo, e há duas estratégias simples. <b>Tratar todos</b>: ninguém escapa, mas muita gente recebe o que não precisava. <b>Tratar ninguém</b>: ninguém recebe à toa, mas os doentes ficam sem tratamento. Usar o modelo só vale se for melhor que as duas.</p>
+  <figure class="fig"><img src="fig/aula12/utilidade.png" alt="Três cards: tratar todos, tratar ninguém e usar o modelo"><figcaption><b>Figura 12.3</b> As três estratégias lado a lado. O card destacado, usar o modelo, só se justifica se ganhar das duas estratégias simples à esquerda.</figcaption></figure>
+
+  <h2>Benefício líquido e curva de decisão</h2>
+  <p>A <b>análise de curva de decisão</b> (Vickers e Elkin, Medical Decision Making, 2006) traduz o modelo em consequência clínica. O centro dela é o <b>benefício líquido</b>:</p>
+  <p>VP/n - FP/n × (pt ÷ (1 - pt))</p>
+  <p>Em palavras: os acertos menos os alarmes falsos, pesados pelo limiar de risco (pt) a partir do qual você trataria. VP são os verdadeiros positivos, FP os falsos positivos e n o total de pacientes.</p>
+  <p>O limiar pt embute uma preferência. Num exemplo: se você trata a partir de 10% de risco, aceita tratar 9 pacientes sem necessidade para pegar 1 que precisava. A curva de decisão calcula o benefício líquido em cada limiar e desenha o modelo ao lado de "tratar todos" e "tratar ninguém".</p>
+  <p>Não precisa decorar a fórmula. Precisa saber ler o gráfico: se a curva do modelo fica acima das duas estratégias simples na faixa de limiares que faz sentido clínico, ele tem utilidade.</p>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>Olhe a faixa de limiares, não o gráfico inteiro. Um modelo pode ganhar das estratégias simples em limiares que ninguém usaria na prática e perder justamente na faixa em que a decisão é tomada.</p></aside>
+
+  <h2>As quatro checagens de um modelo</h2>
+  <p>Juntando esta aula com a anterior, a avaliação completa de um modelo preditivo tem quatro checagens. <b>Discriminação</b>: AUROC e, se o desfecho é raro, AUPRC. <b>Calibração</b>: curva, calibração em grande e inclinação. <b>Utilidade</b>: curva de decisão na faixa de limiares clínicos. <b>Fora de casa</b>: tudo isso de novo em validação externa.</p>
+  <figure class="fig"><img src="fig/aula12/completa.png" alt="Quatro cards: discriminação, calibração, utilidade e fora de casa"><figcaption><b>Figura 12.4</b> O checklist da avaliação completa em quatro cards. O card destacado em verde, fora de casa, é o que mais pesa.</figcaption></figure>
+  <p>Use este quadro ao ler qualquer artigo de modelo preditivo. A quarta caixa é a que mais pesa, porque o desempenho na casa de quem criou o modelo quase sempre é o melhor cenário. A próxima aula trata do que acontece quando o modelo sai do papel e encontra o mundo real.</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>Calibração é o risco previsto bater com o observado: discriminar é ordenar, calibrar é acertar o tamanho.</li>
+    <li>Procure a curva de calibração, a calibração em grande e a inclinação; inclinação abaixo de 1 sugere sobreajuste.</li>
+    <li>Outra população, o passar do tempo e o sobreajuste descalibram, e muitas vezes dá para recalibrar com dados locais.</li>
+    <li>Um modelo só tem utilidade se ganhar de tratar todos e de tratar ninguém na faixa de limiares que importa.</li>
+    <li>Tudo isso precisa ser repetido em validação externa.</li>
+  </ul></div>
+</section>

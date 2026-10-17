@@ -1,0 +1,6 @@
+[
+{"termo":"Sistema especialista","def":"Programa que decide a partir de regras escritas à mão por especialistas, como o MYCIN dos anos 1970."},
+{"termo":"Deep learning","def":"Aprendizado com redes neurais de muitas camadas, que aprendem as próprias variáveis a partir do dado bruto."},
+{"termo":"Diagnóstico autônomo","def":"Sistema que entrega um resultado diagnóstico sem a interpretação de um médico no momento do exame."},
+{"termo":"IA generativa","def":"Modelos que produzem conteúdo novo, como texto ou imagem, em vez de responder uma pergunta fechada."}
+]

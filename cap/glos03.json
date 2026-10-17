@@ -1,0 +1,9 @@
+[
+{"termo":"Dado estruturado","def":"Dado que cabe numa tabela, com um campo por informação, como idade, CID ou potássio."},
+{"termo":"Dado não estruturado","def":"Texto livre, imagem ou sinal, como a evolução escrita, o laudo ou o traçado de ECG."},
+{"termo":"t0","def":"O momento da predição, em que o modelo vai ser usado; só o que já estava registrado antes dele pode entrar no modelo."},
+{"termo":"Janela de observação","def":"Período antes de t0 cujas informações podem ser usadas como variáveis."},
+{"termo":"Janela de desfecho","def":"Período depois de t0, com prazo definido, em que se observa o que se quer prever."},
+{"termo":"Vazamento temporal","def":"Erro em que uma informação que só existe depois de t0 entra como variável e infla o desempenho."},
+{"termo":"Drift","def":"Mudança do desempenho de um modelo ao longo do tempo, à medida que o mundo real se afasta dos dados de treino."}
+]

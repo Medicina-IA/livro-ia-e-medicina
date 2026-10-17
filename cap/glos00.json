@@ -1,0 +1,6 @@
+[
+{"termo":"Modelo","def":"Sistema que recebe dados de um paciente ou de um caso e devolve uma resposta, como um risco, uma classe ou um texto."},
+{"termo":"Leitura crítica","def":"Avaliar um estudo ou produto de IA para decidir o quanto confiar no resultado que ele apresenta."},
+{"termo":"Equidade","def":"Preocupação em garantir que um modelo funcione de forma justa para diferentes grupos de pacientes."},
+{"termo":"Regulação","def":"Conjunto de regras e autorizações que definem como uma ferramenta de IA pode ser usada em saúde."}
+]

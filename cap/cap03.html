@@ -1,0 +1,60 @@
+<section class="cap" id="cap03">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 03</p>
+    <h1>Dados em saúde</h1>
+    <p class="cap-sub">Fontes, tempo e ciclo</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Reconhecer as principais fontes de dados em saúde e as marcas que cada uma carrega.</li>
+      <li>Usar o t0 e as janelas de observação e de desfecho para identificar o vazamento temporal.</li>
+      <li>Percorrer o ciclo que leva de uma pergunta clínica a um modelo em uso.</li>
+    </ul></div>
+  </div>
+
+  <h2>De onde vêm os dados</h2>
+  <p>Todo modelo é tão bom quanto os dados que o alimentam. Por isso vale começar pela origem. Em saúde, os dados vêm de seis lugares principais.</p>
+  <p>O <b>prontuário</b> traz evoluções, prescrições, sinais vitais e diagnósticos. O <b>laboratório</b> traz resultados com data e hora de coleta e de liberação. A <b>imagem</b> inclui radiografia, tomografia, fundo de olho e lâmina. Os <b>sinais</b> vêm do ECG, do monitor de UTI, de relógios e sensores. Os dados <b>administrativos</b> registram internações, faturamento e autorizações. E as <b>bases públicas</b>, como as do DATASUS (SIH, SIM, SINAN e outras), reúnem informação em escala populacional.</p>
+  <figure class="fig"><img src="fig/aula03/fontes.png" alt="Seis cards com as fontes de dados em saúde"><figcaption><b>Figura 03.1</b> As seis fontes, cada uma com seu minidesenho. Repare no recibo de cobrança, em amarelo: o dado administrativo nasceu para cobrar, não para descrever o paciente.</figcaption></figure>
+  <p>Nenhuma dessas fontes nasceu para treinar modelo. Cada uma foi criada para outro propósito: cuidar, cobrar, notificar. E isso deixa marcas. O dado administrativo registra o que foi cobrado, não necessariamente o que o paciente tinha. Diante de qualquer dado, pergunte sempre: quem registrou, quando e para quê?</p>
+
+  <h2>Estruturado e não estruturado</h2>
+  <p>Além da origem, importa o formato. O dado <b>estruturado</b> cabe numa tabela: idade, CID, potássio, data da alta. É fácil de usar, mas conta só parte da história.</p>
+  <p>O dado <b>não estruturado</b> é o texto livre, a imagem e o sinal: a evolução escrita, o laudo, o traçado. É rico, mas exige mais trabalho. E muito do raciocínio clínico mora justamente ali: a impressão, a dúvida, o que foi descartado. O tabagismo, por exemplo, quase nunca está num campo próprio, mas aparece na evolução.</p>
+  <figure class="fig"><img src="fig/aula03/estrutura.png" alt="Tabela arrumada ao lado de uma colagem de texto, imagem e sinal"><figcaption><b>Figura 03.2</b> À esquerda, uma tabela arrumada, uma coluna por campo. À direita, a colagem desarrumada de texto livre, radiografia e traçado de ECG, que não cabe em colunas.</figcaption></figure>
+  <p>Os modelos clássicos usam bem o estruturado. Foram o deep learning e os modelos de linguagem que abriram o não estruturado.</p>
+
+  <h2>O tempo decide o que o modelo pode ver</h2>
+  <p>Este é o conceito mais importante do capítulo. Todo paciente tem uma linha do tempo, e todo modelo é usado num ponto dessa linha. Esse ponto se chama <b>t0</b>, o momento da predição: a chegada ao pronto-socorro, a admissão na UTI, a alta.</p>
+  <p>Antes de t0 fica a <b>janela de observação</b>: consultas, exames, prescrições, internações anteriores. Só pode entrar no modelo o que já estava registrado em t0. Depois de t0 fica a <b>janela de desfecho</b>: o que queremos prever, como óbito, internação ou sepse, num prazo definido, por exemplo 30 dias ou 48 horas.</p>
+  <figure class="fig"><img src="fig/aula03/timeline.png" alt="Eixo do tempo de um paciente dividido pelo t0"><figcaption><b>Figura 03.3</b> A linha vertical verde é o t0. À esquerda, o eixo é contínuo: é o passado, que o modelo pode ver. À direita, ele fica tracejado, porque o futuro ainda não aconteceu. O círculo amarelo tracejado é o desfecho, ainda desconhecido.</figcaption></figure>
+  <p>Antes de t0 é passado. Depois de t0 é futuro, e o modelo não pode enxergar. Definir t0 é a primeira decisão de qualquer projeto, e tudo depende dela.</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Pense num modelo para estimar, na chegada ao pronto-socorro, o risco de o paciente ser internado. O t0 é a chegada. A triagem e os exames anteriores podem entrar. O exame pedido uma hora depois, não, porque no momento em que o modelo vai ser usado ele ainda não existe.</p></aside>
+
+  <h2>Quando o futuro entra escondido no passado</h2>
+  <p>O erro mais traiçoeiro com o tempo tem nome: <b>vazamento temporal</b>. Ele acontece quando uma informação que só existe depois de t0 entra como variável.</p>
+  <p>Veja o exemplo. Um modelo de sepse usa "antibiótico prescrito" como variável. Mas o antibiótico só foi prescrito porque o médico já suspeitava de sepse. A variável carrega a decisão do médico, não um sinal do paciente. No teste, o modelo parece ótimo. No plantão, ele avisa quando você já sabia.</p>
+  <figure class="fig"><img src="fig/aula03/vazamento.png" alt="Linha do tempo com seta voltando do futuro para o passado"><figcaption><b>Figura 03.4</b> Depois do t0 vêm a suspeita e o antibiótico prescrito. A seta amarela tracejada sai do antibiótico, cruza o t0 para trás e pousa antes dele: o futuro vazando para o passado.</figcaption></figure>
+  <p>Outro exemplo comum é usar o CID da alta para prever algo que acontece na admissão. O CID da alta só é definido no fim da internação.</p>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>Desempenho bom demais é motivo de desconfiança, não de comemoração. Quando um modelo acerta quase tudo, a primeira hipótese a investigar é se o futuro entrou escondido nas variáveis.</p></aside>
+
+  <h2>Quatro perguntas contra o vazamento</h2>
+  <p>Quatro perguntas simples ajudam a evitar o problema, tanto em quem constrói um modelo quanto em quem o avalia.</p>
+  <p>Primeira: qual é o t0? Defina antes de escolher qualquer variável. Segunda: essa informação já estava registrada em t0, ou só depois? Use o horário de registro, não o horário do evento. O exame colhido às 8h pode ter sido liberado às 14h. Terceira: a variável descreve o paciente ou a decisão de quem cuidou dele? Variáveis que refletem a conduta, como pedido de exame e prescrição, costumam carregar o raciocínio do médico. Quarta: o desempenho está bom demais para ser verdade?</p>
+  <figure class="fig"><img src="fig/aula03/evitar.png" alt="Checklist de quatro linhas com ícones"><figcaption><b>Figura 03.5</b> O checklist com seus ícones: o relógio do t0, a folha conferida do registro, o paciente em verde ao lado de quem cuidou em amarelo, e o triângulo de alerta para o desempenho bom demais.</figcaption></figure>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>As mesmas quatro perguntas servem para ler um estudo. Procure no método como o t0 foi definido e se as variáveis estavam disponíveis naquele momento. Se o artigo não diz, isso já é uma informação.</p></aside>
+
+  <h2>Da pergunta ao modelo em uso</h2>
+  <p>Juntando tudo, o caminho de um modelo tem sete etapas. Começa na <b>pergunta</b>: o que decidir, e para quem. Segue para os <b>dados</b>: fontes, período, população. Depois vem o <b>preparo</b>: limpeza, variáveis e a definição do t0. Só então o <b>modelo</b>, com treino e ajuste. A <b>avaliação</b> olha discriminação, calibração e utilidade. A <b>implantação</b> coloca o modelo no fluxo real do serviço. E o <b>monitoramento</b> acompanha o desempenho ao longo do tempo.</p>
+  <figure class="fig"><img src="fig/aula03/ciclo.png" alt="Sete etapas dispostas em círculo"><figcaption><b>Figura 03.6</b> As sete etapas em círculo, no sentido horário. A seta tracejada verde, do monitoramento de volta à pergunta, fecha o ciclo. No centro, o motivo: o mundo muda, o modelo também.</figcaption></figure>
+  <p>Três observações. O ciclo começa numa pergunta clínica, não num algoritmo. A maior parte do trabalho está nas etapas de dados e preparo. E implantar não é o fim: o desempenho muda com o tempo, fenômeno chamado drift, por isso o ciclo volta à pergunta. Discriminação, calibração e utilidade clínica terão capítulos próprios no nível avançado.</p>
+
+  <h2>O que fica</h2>
+  <p>Dado de saúde tem origem, formato e, acima de tudo, tempo. O próximo capítulo mostra como esses dados viram uma tabela que o modelo consegue ler, e como separar treino de teste sem se enganar.</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>Cada fonte de dados nasceu para cuidar, cobrar ou notificar, e carrega as marcas desse propósito.</li>
+    <li>O dado estruturado é fácil de usar; o não estruturado é rico e guarda boa parte do raciocínio clínico.</li>
+    <li>O t0 separa o que o modelo pode ver do que ele quer prever, e defini-lo é a primeira decisão.</li>
+    <li>Vazamento temporal é o futuro entrando como variável; desempenho bom demais é sinal de alerta.</li>
+    <li>O ciclo vai da pergunta ao monitoramento e volta à pergunta, porque o desempenho muda com o tempo.</li>
+  </ul></div>
+</section>

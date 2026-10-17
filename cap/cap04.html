@@ -1,0 +1,62 @@
+<section class="cap" id="cap04">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 04</p>
+    <h1>A matriz de dados</h1>
+    <p class="cap-sub">Partição e paradigmas de aprendizado</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Entender como os dados viram uma tabela e por que a unidade de análise vem antes de tudo.</li>
+      <li>Separar treino, validação e teste sem se enganar, e saber o que é validação cruzada.</li>
+      <li>Distinguir aprendizado supervisionado, não supervisionado e por reforço.</li>
+    </ul></div>
+  </div>
+
+  <h2>Uma linha por paciente, uma coluna por variável</h2>
+  <p>Este é o último capítulo do nível básico. Tudo o que vimos sobre dados em saúde termina num mesmo lugar: uma tabela. Todo modelo clássico lê uma tabela assim, chamada matriz de dados.</p>
+  <p>Cada linha é uma <b>unidade de análise</b>, no exemplo, o paciente. Cada coluna é uma <b>variável</b> que o modelo pode usar: idade, pressão arterial sistólica, creatinina, diabetes. A última coluna é o <b>desfecho</b>, o que queremos prever, aqui o óbito em 30 dias. No aprendizado supervisionado, essa coluna também se chama <b>rótulo</b>.</p>
+  <figure class="fig"><img src="fig/aula04/matriz.png" alt="Tabela com quatro pacientes, quatro variáveis e o desfecho"><figcaption><b>Figura 04.1</b> Uma matriz de dados com valores ilustrativos, inventados para o exemplo. A chave de cima marca as colunas de variáveis, a chave verde marca a última coluna, o desfecho, e a chave de baixo marca uma linha inteira, a do paciente 004, como unidade de análise.</figcaption></figure>
+  <p>Os números da tabela não vêm de pacientes reais. Servem só para mostrar a forma: linhas, colunas e o desfecho no fim.</p>
+
+  <h2>Paciente, internação ou exame?</h2>
+  <p>Antes de montar a tabela, é preciso decidir o que é uma linha. A unidade de análise vem da pergunta clínica. Para prever readmissão, a unidade costuma ser a internação. Para prever o diagnóstico de diabetes, costuma ser o paciente.</p>
+  <p>Essa escolha tem consequências. Pense num caso ilustrativo: Dona Maria teve três internações no ano. Se a unidade é a internação, ela vira três linhas. Agora imagine que duas dessas linhas caiam no treino e uma no teste. O modelo pode reconhecer a paciente, e não o padrão, e parecer melhor do que é.</p>
+  <figure class="fig"><img src="fig/aula04/unidade.png" alt="Dona Maria dividida em três internações, entre treino e teste"><figcaption><b>Figura 04.2</b> Dona Maria vira três cartões, um por internação. Dois vão para o treino e um para o teste. A linha amarela tracejada mostra que a mesma paciente está dos dois lados.</figcaption></figure>
+  <p>Quando o mesmo paciente aparece várias vezes, a separação entre treino e teste precisa respeitar isso. É o próximo assunto.</p>
+
+  <h2>Treino, validação e teste</h2>
+  <p>Para saber se um modelo funciona, não basta olhar como ele se sai nos dados em que aprendeu. É preciso separar a base em três partes. Uma proporção comum é 70% para treino, 15% para validação e 15% para teste, mas ela não é uma regra: varia com o tamanho da base.</p>
+  <p>A analogia ajuda. O <b>treino</b> é a aula: é onde o modelo aprende. A <b>validação</b> são os simulados: servem para escolher ajustes e comparar modelos, e podem ser repetidos. O <b>teste</b> é a prova de residência: abre uma vez, no fim, e é a nota que vale. Quem viu a prova antes não está sendo avaliado.</p>
+  <figure class="fig"><img src="fig/aula04/particao.png" alt="Barra dividida em treino, validação e teste, com ícones de analogia"><figcaption><b>Figura 04.3</b> A barra mostra a proporção 70, 15 e 15. Embaixo, cada parte com o ícone da analogia: o quadro da aula, a pilha de simulados que se repete e a prova trancada com cadeado até o fim.</figcaption></figure>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>Se o teste foi usado para escolher o modelo, ele deixou de ser teste. As proporções podem variar. O que não varia é que o teste fica guardado até o fim.</p></aside>
+
+  <h2>Cada parte vira validação uma vez</h2>
+  <p>Quando a base é pequena, separar uma validação fixa desperdiça dados. A <b>validação cruzada</b> resolve isso. Divide-se a base, já sem o teste, em k partes, aqui cinco. O modelo treina em quatro e é validado na quinta. Depois troca: outra parte vira validação, e assim por diante, até que cada parte tenha sido validação uma vez.</p>
+  <figure class="fig"><img src="fig/aula04/cruzada.png" alt="Grade de cinco rodadas por cinco partes"><figcaption><b>Figura 04.4</b> Cinco rodadas, cinco partes. Em cada rodada, uma parte diferente, em verde, é a validação, e as outras quatro são treino. A diagonal mostra que toda parte passa pela validação uma vez.</figcaption></figure>
+  <p>O resultado é a média das cinco rodadas, com a variação entre elas. Essa variação diz o quanto o resultado é estável. E o teste final continua separado, fora dessas rodadas.</p>
+
+  <h2>Três jeitos de separar, do mais fraco ao mais forte</h2>
+  <p>A forma de separar treino e teste também tem graus. Do mais fraco ao mais forte, são três.</p>
+  <p><b>Por paciente</b>: o mesmo paciente nunca fica nos dois lados. É o mínimo, e evita que o modelo decore pessoas, como no caso de Dona Maria. <b>Por tempo</b>: treina no passado e testa no período seguinte. Isso imita o uso real, porque o modelo vai ser usado no futuro, com dados que ainda não existem. <b>Por lugar</b>: treina num hospital e testa em outro. É a validação externa, que mostra se o modelo funciona fora de casa.</p>
+  <figure class="fig"><img src="fig/aula04/separar.png" alt="Três cards: por paciente, por tempo e por lugar"><figcaption><b>Figura 04.5</b> A seta de cima vai do mais fraco ao mais forte. Por paciente, a mesma pessoa aparece riscada em amarelo do lado do teste. Por tempo, a linha do tempo é cortada entre passado e futuro. Por lugar, o modelo treina no hospital A e é testado no hospital B.</figcaption></figure>
+  <p>Quanto mais forte a separação, mais o desempenho costuma cair. E mais honesto ele é.</p>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Procure no método como os dados foram separados. A separação foi por paciente, por tempo ou por lugar? Procure a expressão "validação externa". Um desempenho alto medido só numa separação fraca vale menos do que um desempenho um pouco menor medido em outro hospital.</p></aside>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Seu hospital quer adotar um modelo de readmissão desenvolvido em outro serviço. A pergunta útil não é só "qual foi o desempenho", mas "onde foi testado". Se nunca foi testado fora do hospital de origem, o seu serviço vai funcionar, na prática, como a primeira validação externa.</p></aside>
+
+  <h2>Três jeitos de uma máquina aprender</h2>
+  <p>Por fim, os paradigmas de aprendizado, ou seja, as formas de uma máquina aprender.</p>
+  <p>No <b>supervisionado</b>, o modelo aprende com a resposta certa, como prever óbito ou classificar um ECG. É a maior parte do que você vai ver na clínica. A matriz deste capítulo, com a coluna de desfecho, é um problema supervisionado.</p>
+  <p>No <b>não supervisionado</b>, não há resposta certa. O modelo agrupa sozinho pacientes parecidos, como na busca de fenótipos de pacientes com asma. Cabe a nós dizer se os grupos fazem sentido clínico.</p>
+  <p>No <b>aprendizado por reforço</b>, o sistema age, recebe uma recompensa e ajusta. Ele aprende uma sequência de decisões, como estratégias de dose. É promissor em decisões sequenciais, mas ainda está em pesquisa e é raro na prática.</p>
+  <figure class="fig"><img src="fig/aula04/paradigmas.png" alt="Três cards: supervisionado, não supervisionado e por reforço"><figcaption><b>Figura 04.6</b> No supervisionado, a radiografia vira uma etiqueta com a resposta. No não supervisionado, pontos sem etiqueta formam grupos, marcados por círculos tracejados. No reforço, um ciclo: o sistema age e recebe de volta uma recompensa, a estrela.</figcaption></figure>
+  <p>Cada um desses paradigmas volta com mais detalhe nos níveis intermediário e avançado.</p>
+
+  <h2>Fechamos o básico</h2>
+  <p>Em quatro capítulos, o nível básico percorreu por que a IA entrou na medicina; o léxico de IA, machine learning, deep learning, preditiva e generativa; os dados em saúde, a timeline do paciente e o ciclo analítico; e, agora, a matriz de dados, a partição e os paradigmas. Quem chegou aqui já entende o vocabulário e o racional clínico por trás de um modelo. O intermediário começa com a Aula 05, sobre modelos lineares, regressão linear e logística, e segue com os algoritmos, um de cada vez.</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>A matriz de dados tem uma linha por unidade de análise, uma coluna por variável e o desfecho no fim.</li>
+    <li>A unidade de análise vem da pergunta clínica e define como separar os dados.</li>
+    <li>O treino ensina, a validação escolhe e o teste, aberto uma vez no fim, dá a nota que vale.</li>
+    <li>Separar por paciente é o mínimo; por tempo e por lugar é mais forte, e o desempenho mais honesto.</li>
+    <li>Supervisionado aprende com a resposta certa, não supervisionado acha grupos e por reforço aprende com recompensa.</li>
+  </ul></div>
+</section>

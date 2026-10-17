@@ -1,0 +1,8 @@
+[
+{"termo": "Calibração", "def": "Concordância entre o risco que o modelo prevê e a proporção de pacientes que de fato tem o desfecho."},
+{"termo": "Curva de calibração", "def": "Gráfico do risco previsto contra o observado, em que a diagonal representa a calibração perfeita."},
+{"termo": "Calibração em grande", "def": "Comparação entre o risco médio previsto e a taxa observada do desfecho; mostra se o modelo erra para cima ou para baixo em todos."},
+{"termo": "Inclinação de calibração", "def": "Número cujo ideal é 1; abaixo disso, as previsões são extremas demais, sinal de sobreajuste."},
+{"termo": "Benefício líquido", "def": "Acertos menos alarmes falsos, com os falsos pesados pelo limiar de risco a partir do qual se trataria."},
+{"termo": "Curva de decisão", "def": "Gráfico do benefício líquido em cada limiar, que compara o modelo com tratar todos e com tratar ninguém."}
+]

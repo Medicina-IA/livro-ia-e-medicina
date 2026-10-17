@@ -1,0 +1,8 @@
+[
+{"termo": "SVM (support vector machine)", "def": "Algoritmo que separa dois grupos pela fronteira com a maior folga até os pontos mais próximos de cada lado."},
+{"termo": "Vetores de suporte", "def": "Os pontos da beira, mais próximos da fronteira, que sozinhos definem onde o SVM traça a separação."},
+{"termo": "Kernel", "def": "Truque do SVM que acrescenta dimensões para que um plano reto separe grupos que nenhuma reta separava."},
+{"termo": "KNN (k-nearest neighbors)", "def": "Algoritmo que prevê o desfecho de um paciente novo pela maioria dos k pacientes mais parecidos da base."},
+{"termo": "Padronização", "def": "Colocar todas as variáveis na mesma escala antes de treinar, para que nenhuma domine a conta de distância só por ter números maiores."},
+{"termo": "Naive Bayes", "def": "Algoritmo que atualiza a probabilidade a cada achado, como a razão de verossimilhança, tratando os achados como independentes."}
+]

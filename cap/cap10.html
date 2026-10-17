@@ -1,0 +1,62 @@
+<section class="cap" id="cap10">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 10</p>
+    <h1>Sequência e linguagem</h1>
+    <p class="cap-sub">De RNN a LLM</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Entender por que dados com ordem, como sinais vitais, ECG e texto, pedem modelos próprios.</li>
+      <li>Saber o que um modelo de linguagem faz por dentro e onde ele ajuda ou engana na clínica.</li>
+      <li>Escolher o ponto de partida certo para cada tipo de dado e pergunta.</li>
+    </ul></div>
+  </div>
+
+  <h2>Quando a ordem carrega informação</h2>
+  <p>Até aqui, cada paciente foi uma linha de tabela ou uma imagem. Esta aula abre o nível avançado com outro tipo de dado: o que tem ordem. E termina nos modelos de linguagem, que hoje aparecem em quase toda conversa sobre IA.</p>
+  <p>Numa tabela, embaralhar as colunas não muda nada. Idade continua sendo idade, creatinina continua sendo creatinina. Numa sequência, a ordem é a própria informação. Três exemplos ajudam a ver isso.</p>
+  <p>Nos <b>sinais vitais</b>, a pressão caindo hora a hora diz mais que um valor isolado. Um 90/60 depois de 120/80 e 105/70 conta uma história que um 90/60 solto não conta. No <b>sinal</b>, o ECG é uma sequência de milhares de pontos no tempo. E no <b>texto</b>, "nega dor torácica" e "dor torácica" diferem por uma palavra, e essa palavra inverte o sentido. É por isso que texto clínico é difícil para a máquina. Os modelos desta aula foram feitos para lidar com esse tipo de dado.</p>
+
+  <h2>Ler um passo de cada vez, com memória</h2>
+  <p>A primeira solução foi a rede recorrente, ou <b>RNN</b>. Ela lê a sequência um passo de cada vez. A cada passo, combina o dado novo com um resumo do que veio antes e leva esse resumo adiante.</p>
+  <figure class="fig"><img src="fig/aula10/rnn.png" alt="Três caixas de pressão arterial em sequência ligadas por setas"><figcaption><b>Figura 10.1</b> A pressão de hora 1, hora 2 e hora 3, com valores ilustrativos. As setas mostram o resumo passando de um passo para o seguinte. A caixa destacada, a da hora 3, é lida já carregando o que veio antes.</figcaption></figure>
+  <p>O problema clássico aparece nas sequências longas: o começo vai sendo esquecido. A <b>LSTM</b> e a GRU são variações com portas que decidem o que guardar e o que esquecer, e melhoram essa memória. Foram o padrão para séries temporais e texto até a chegada dos transformers.</p>
+
+  <h2>Atenção: cada palavra olha para todas</h2>
+  <p>O <b>transformer</b>, de 2017 (artigo Attention Is All You Need), trocou a leitura passo a passo por um mecanismo chamado <b>atenção</b>. Em vez de carregar um resumo de uma ponta à outra, cada palavra calcula o quanto deve olhar para cada outra palavra da frase.</p>
+  <figure class="fig"><img src="fig/aula10/atencao.png" alt="Frase com as palavras nega e tosse destacadas"><figcaption><b>Figura 10.2</b> A frase "paciente nega febre mas refere tosse", palavra por palavra. As palavras em verde, "nega" e "tosse", mostram onde o modelo põe peso: para entender "febre", ele olha para "nega", mesmo que esteja longe na frase.</figcaption></figure>
+  <p>Isso trouxe duas vantagens. A primeira é pegar relações distantes, como a negação que vem antes do sintoma. A segunda é rodar em paralelo, o que permitiu treinar modelos enormes. O transformer é a base de todos os modelos de linguagem atuais.</p>
+
+  <h2>Prever a próxima palavra, em escala</h2>
+  <p>No fundo, um modelo de linguagem de grande porte, o <b>LLM</b>, faz uma coisa só: dado um texto, estima qual é a próxima palavra mais provável. Feito em escala gigante, isso produz algo que parece raciocínio. O modelo é construído em três etapas.</p>
+  <p>No <b>pré-treino</b>, ele lê volumes enormes de texto e aprende a prever a próxima palavra. Nas <b>instruções</b>, é ajustado com exemplos de pergunta e resposta. Na <b>preferência</b>, pessoas avaliam respostas e o modelo aprende o que elas preferem. Essa terceira etapa é aprendizado por reforço com preferência humana, o <b>RLHF</b>, e o reforço aparece de novo mais adiante neste capítulo.</p>
+  <figure class="fig"><img src="fig/aula10/llm.png" alt="Três cards numerados: pré-treino, instruções e preferência"><figcaption><b>Figura 10.3</b> As três etapas de um LLM, da esquerda para a direita. O card destacado é a preferência, a etapa em que o modelo aprende a parecer uma boa resposta aos olhos de quem avalia.</figcaption></figure>
+  <p>Aqui está o ponto clínico. O modelo otimiza parecer uma boa resposta. Isso não garante que ela seja correta.</p>
+
+  <h2>Onde ajuda e onde engana</h2>
+  <p>Na prática, o LLM costuma ir bem em três tarefas: resumir uma consulta, reescrever um texto para o paciente e extrair dados de um texto. Exige cuidado em outras três. Diante de um fato sem fonte, pode inventar. Em conta e dose, pode errar com confiança. E em conduta, precisa de revisão humana.</p>
+  <p>A regra prática é esta: o LLM é ótimo para transformar um texto que você já tem e arriscado para gerar um fato que você não vai conferir. O nome do problema é <b>alucinação</b>, uma resposta fluente e errada. O tom confiante não muda quando ele erra.</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Pedir ao modelo que resuma a evolução que você mesmo escreveu, ou que reescreva a orientação de alta em linguagem simples, é usar o que ele faz bem: você conhece o original e confere o resultado. Pedir a dose de um antibiótico ajustada para a função renal é outra coisa. Se a resposta vier errada, ela virá no mesmo tom seguro, e quem assina a prescrição continua sendo você.</p></aside>
+
+  <h2>Aprender agindo e recebendo retorno</h2>
+  <p>O <b>aprendizado por reforço</b> funciona de outro jeito. No supervisionado, cada linha tem uma resposta certa. No reforço, não há resposta certa por linha: há uma sequência de decisões e um resultado no fim. O sistema observa um estado, toma uma ação e recebe uma recompensa.</p>
+  <figure class="fig"><img src="fig/aula10/reforco.png" alt="Fluxo estado, ação e recompensa ligado por setas"><figcaption><b>Figura 10.4</b> O ciclo do reforço em três caixas: o estado (como o paciente está agora), a ação (ajustar dose, manter, suspender) e a recompensa (o que aconteceu depois), que fica destacada no fim da cadeia de setas.</figcaption></figure>
+  <p>Na clínica, isso ainda é sobretudo pesquisa, em temas como dose de medicamentos e ajuste de ventilação. O obstáculo é óbvio para quem é médico: o modelo não pode testar ações em paciente real para aprender. Ele aprende com dados históricos, e esses dados trazem os vieses de quem decidiu no passado. É o mesmo princípio do RLHF visto acima, aplicado a decisões clínicas.</p>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>Um modelo de reforço treinado em prontuários aprende com as decisões que os médicos tomaram, não com as que deveriam ter tomado. Se uma ação nunca foi testada num tipo de paciente, o modelo não tem como saber o que aconteceria.</p></aside>
+
+  <h2>O dado e a pergunta escolhem o método</h2>
+  <p>Com esta aula, o curso já passou por todas as famílias principais de modelos. Vale juntar o nível intermediário e o avançado num quadro só.</p>
+  <figure class="fig"><img src="fig/aula10/escolha.png" alt="Quadro de duas colunas: tipo de dado e método inicial"><figcaption><b>Figura 10.5</b> À esquerda, o tipo de dado; à direita, em verde, por onde começar. Leia linha a linha: tabela com desfecho pede regressão logística e depois boosting, imagem pede rede convolucional, texto pede transformer ou LLM, série no tempo pede modelos de sequência, dado sem rótulo pede clusterização e tempo até o evento pede Cox e modelos de sobrevida.</figcaption></figure>
+  <p>Não é regra fixa. É o ponto de partida mais comum para cada tipo de dado.</p>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Pergunte se o método combina com o dado. Deep learning numa tabela pequena costuma ser exagero. E procure a linha de base: o artigo comparou o modelo complexo com um modelo simples, como a regressão logística, nos mesmos pacientes?</p></aside>
+
+  <h2>A regra de ouro</h2>
+  <p>Comece pelo modelo mais simples que responde à pergunta. Só complique se ganhar de verdade.</p>
+  <p>O modelo simples é a linha de base, e todo modelo complexo precisa mostrar que ganha dele. Ganhar de verdade quer dizer três coisas: em validação externa, com calibração e com uma diferença que muda decisão clínica. É exatamente isso que as próximas três aulas ensinam a medir, começando pela pergunta mais básica: o modelo separa quem tem de quem não tem o desfecho?</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>Em sinais vitais, ECG e texto, a ordem é a informação, e uma palavra como "nega" inverte o sentido.</li>
+    <li>RNN e LSTM leem passo a passo com memória; o transformer usa atenção e é a base dos LLMs.</li>
+    <li>Um LLM prevê a próxima palavra e otimiza parecer boa resposta, o que não garante que ela esteja certa.</li>
+    <li>Use o LLM para transformar texto que você já tem, não para gerar fato, conta ou dose que você não vai conferir.</li>
+    <li>O dado escolhe o método, e o modelo simples é a linha de base que o complexo precisa vencer.</li>
+  </ul></div>
+</section>

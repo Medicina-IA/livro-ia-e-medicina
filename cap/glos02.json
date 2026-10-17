@@ -1,0 +1,8 @@
+[
+{"termo":"Inteligência artificial","def":"Termo mais amplo para máquinas que fazem tarefas que associamos à inteligência, seja por regras escritas, seja aprendendo com dados."},
+{"termo":"Machine learning","def":"Parte da IA em que a máquina aprende o padrão a partir de exemplos com a resposta conhecida, em vez de receber a regra pronta."},
+{"termo":"Pesos","def":"Valores internos do modelo, ajustados como botões durante o treino até que ele acerte os exemplos."},
+{"termo":"Rede neural","def":"Modelo organizado em camadas, em que cada camada aprende um nível de abstração do dado."},
+{"termo":"IA preditiva","def":"IA que responde uma pergunta fechada e devolve um número ou uma classe, como um risco de readmissão."},
+{"termo":"Alucinação","def":"Conteúdo produzido por uma IA generativa que parece plausível, mas não é verdadeiro."}
+]

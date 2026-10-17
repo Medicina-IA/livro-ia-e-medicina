@@ -1,0 +1,9 @@
+[
+{"termo":"Neurônio artificial","def":"Unidade que soma entradas com pesos e passa o resultado por uma função de ativação; com ativação em S, equivale à regressão logística."},
+{"termo":"Camada oculta","def":"Camada intermediária de uma rede neural cujo significado ninguém define: a própria rede descobre o que ela representa."},
+{"termo":"Retropropagação (backpropagation)","def":"Processo em que o erro da previsão volta pela rede e cada peso é ajustado um pouco, com descida do gradiente."},
+{"termo":"Época","def":"Uma passada completa por toda a base de treino durante o aprendizado da rede."},
+{"termo":"Rede convolucional (CNN)","def":"Rede neural para imagem que usa filtros, pequenas janelas de pesos que percorrem a imagem procurando padrões."},
+{"termo":"Aprendizado por atalho (shortcut learning)","def":"Quando a rede acerta pelo motivo errado, usando uma pista que acompanha o diagnóstico, como uma etiqueta ou um dreno."},
+{"termo":"Mapa de calor","def":"Imagem que mostra onde a rede olhou para decidir, sem explicar por que ela decidiu."}
+]

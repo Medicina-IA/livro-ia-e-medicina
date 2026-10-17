@@ -1,0 +1,60 @@
+<section class="cap" id="cap02">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 02</p>
+    <h1>O léxico da IA</h1>
+    <p class="cap-sub">Preditiva e generativa</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Distinguir inteligência artificial, machine learning e deep learning, e entender como uma cabe dentro da outra.</li>
+      <li>Entender a diferença entre ensinar uma máquina por regras e por dados.</li>
+      <li>Separar IA preditiva de IA generativa e saber por que cada uma se avalia de um jeito.</li>
+    </ul></div>
+  </div>
+
+  <h2>Três palavras, uma dentro da outra</h2>
+  <p>Três palavras aparecem em quase todo artigo e em quase todo produto: inteligência artificial, machine learning e deep learning. Elas não são sinônimos. Uma cabe dentro da outra.</p>
+  <p><b>Inteligência artificial</b> é o termo mais amplo: máquinas que fazem tarefas que associamos à inteligência. O MYCIN, sistema especialista dos anos 1970 feito de regras escritas à mão, já era IA. <b>Machine learning</b> é a parte da IA que aprende o padrão a partir de exemplos, como um risco calculado a partir do prontuário. <b>Deep learning</b> é a parte do machine learning que usa redes neurais com muitas camadas, como uma rede convolucional (CNN) que lê radiografias.</p>
+  <figure class="fig"><img src="fig/aula02/encaixe.png" alt="Três círculos concêntricos: IA, machine learning e deep learning"><figcaption><b>Figura 02.1</b> Os três termos como círculos concêntricos. O deep learning, no centro, está dentro do machine learning, que está dentro da IA. À direita, um exemplo de cada camada, de fora para dentro.</figcaption></figure>
+  <p>A regra de bolso: todo deep learning é machine learning, e todo machine learning é IA. O contrário não vale. Quando um produto diz que "usa IA", a primeira pergunta é: qual dessas camadas?</p>
+
+  <h2>Dois jeitos de ensinar uma máquina</h2>
+  <p>IA é o guarda-chuva. Debaixo dele, há dois caminhos para fazer uma máquina se comportar de forma inteligente.</p>
+  <p>O primeiro, usado dos anos 1970 em diante, é <b>por regras</b>. O especialista escreve a regra, a máquina recebe os dados do paciente e devolve uma resposta, como uma sugestão de conduta. Por exemplo: se febre e leucocitose, então suspeitar de infecção. O conhecimento vem do especialista. Funciona bem quando a regra é clara e quebra nos casos que ninguém previu.</p>
+  <p>O segundo, que domina hoje, é <b>por dados</b>. Aqui a lógica se inverte: a máquina recebe muitos casos junto com as respostas já conhecidas, o desfecho de cada um, e descobre a regra sozinha. O conhecimento vem dos exemplos. É aqui que entra o machine learning.</p>
+  <figure class="fig"><img src="fig/aula02/ia.png" alt="Dois fluxos: por regras e por dados"><figcaption><b>Figura 02.2</b> Compare as duas linhas. Em cima, regras mais dados geram respostas. Embaixo, em verde, dados mais respostas geram as regras. O que era entrada virou saída.</figcaption></figure>
+
+  <h2>Aprender com exemplos</h2>
+  <p>Em vez de escrever a regra, mostramos exemplos com a resposta certa. Imagine milhares de ECGs, cada um com o seu laudo. O modelo tenta acertar o laudo, erra, ajusta seus pesos, que funcionam como botões, e tenta de novo. Erra, corrige, erra menos. Isso é o treino.</p>
+  <p>Depois de treinado, o modelo recebe um ECG novo, sem laudo, e devolve uma resposta. Ninguém escreveu a regra que ele usa. Ela foi aprendida.</p>
+  <figure class="fig"><img src="fig/aula02/ml.png" alt="Quatro etapas: exemplos, treino, ECG novo e resposta"><figcaption><b>Figura 02.3</b> Da esquerda para a direita: a pilha de ECGs com seus laudos, o modelo com os botões e o laço tracejado de tentativa e correção, um ECG novo com a etiqueta vazia e a resposta que sai do modelo treinado.</figcaption></figure>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>A regra aprendida só vale para dados parecidos com os do treino. O modelo só sabe o que estava nos exemplos. Hospital diferente, população diferente, aparelho diferente: o desempenho pode cair. Esse ponto volta muitas vezes ao longo do curso.</p></aside>
+
+  <h2>Quem escolhe as variáveis?</h2>
+  <p>A diferença entre o machine learning clássico e o deep learning está em quem escolhe as variáveis. No clássico, uma pessoa decide antes o que o modelo vai olhar: idade, pressão arterial, creatinina. O modelo trabalha com essa lista.</p>
+  <p>No deep learning, o dado bruto entra direto na rede, e as camadas aprendem sozinhas o que importa. Numa imagem, as primeiras camadas reconhecem bordas, as do meio reconhecem formas e as últimas reconhecem a lesão. Cada camada aprende um nível de abstração.</p>
+  <figure class="fig"><img src="fig/aula02/dl.png" alt="Dois fluxos: machine learning clássico e deep learning"><figcaption><b>Figura 02.4</b> Em cima, uma pessoa escolhe as variáveis antes do modelo. Embaixo, em verde, a imagem entra nas camadas da rede, que passam de bordas a formas e de formas à lesão sem que ninguém diga o que procurar.</figcaption></figure>
+  <p>Há um preço. O deep learning precisa de muito dado e é mais difícil explicar por que ele decidiu o que decidiu. Por isso ele brilha em imagem, sinal e texto, mas, para dados em tabela, o clássico ainda costuma empatar ou ganhar. Isso será visto no nível intermediário.</p>
+
+  <h2>Responder ou produzir</h2>
+  <p>Na prática, a divisão que mais importa é outra: a ferramenta responde uma pergunta ou produz um conteúdo?</p>
+  <p>A <b>IA preditiva</b> responde uma pergunta fechada e devolve um número ou uma classe, como o risco de readmissão em 30 dias. Como sai um número, dá para comparar com o que aconteceu depois. A avaliação usa discriminação e calibração, que terão capítulo próprio no nível avançado.</p>
+  <p>A <b>IA generativa</b> produz conteúdo novo: texto, imagem, áudio. Um exemplo é o rascunho do resumo de alta. Aqui não existe uma única resposta certa, então a avaliação muda: olha-se a exatidão, a alucinação e a necessidade de revisão humana.</p>
+  <figure class="fig"><img src="fig/aula02/tipos.png" alt="Dois cards: IA preditiva e IA generativa"><figcaption><b>Figura 02.5</b> No topo de cada card, o fluxo. Na preditiva, os dados entram no modelo e sai uma barra de percentual. Na generativa, entra um pedido e saem linhas de texto novo, em amarelo. Embaixo, o que cada uma faz e como se avalia.</figcaption></figure>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Identifique primeiro se a ferramenta é preditiva ou generativa. Se é preditiva, procure discriminação e calibração. Se é generativa, procure como mediram a exatidão, com que frequência houve alucinação e quem revisou o texto produzido.</p></aside>
+
+  <h2>Qual é qual?</h2>
+  <p>Teste o critério em quatro ferramentas antes de ler a resposta: um alerta de risco de sepse no prontuário, um resumo automático da consulta gravada, a triagem de retinopatia em foto de fundo de olho e um chatbot que responde dúvidas do paciente.</p>
+  <p>O alerta de sepse responde uma pergunta fechada e devolve um risco: preditiva. O resumo da consulta produz texto: generativa. A triagem de retinopatia responde uma pergunta fechada sobre uma imagem: preditiva, e feita com deep learning. O chatbot produz texto: generativa.</p>
+  <figure class="fig"><img src="fig/aula02/pratica.png" alt="Quatro cartões com exemplos e a classificação de cada um"><figcaption><b>Figura 02.6</b> Cada cartão traz um minidesenho da ferramenta e, embaixo, a etiqueta com a resposta: em verde para preditiva, em amarelo para generativa.</figcaption></figure>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Diante de qualquer ferramenta nova no serviço, faça a pergunta: ela me devolve um número ou uma classe, ou me devolve um texto? Se for número, você pode conferir depois se o paciente evoluiu como previsto. Se for texto, você precisa revisar o que foi escrito antes de assinar.</p></aside>
+
+  <h2>O que fica</h2>
+  <p>Com essas palavras, você já consegue situar quase qualquer ferramenta: em que camada da IA ela está, se aprendeu por regras ou por dados e se responde ou produz. Mas todo modelo é tão bom quanto os dados que o alimentam. É disso que trata o próximo capítulo.</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>Todo deep learning é machine learning, e todo machine learning é IA, mas o contrário não vale.</li>
+    <li>Por regras, o especialista escreve a regra; por dados, a máquina a descobre a partir de exemplos.</li>
+    <li>A regra aprendida só vale para dados parecidos com os do treino.</li>
+    <li>No deep learning, a rede escolhe as próprias variáveis, ao custo de mais dados e menos explicação.</li>
+    <li>A IA preditiva responde uma pergunta fechada; a generativa produz conteúdo novo, e cada uma se avalia de um jeito.</li>
+  </ul></div>
+</section>

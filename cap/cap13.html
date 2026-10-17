@@ -1,0 +1,69 @@
+<section class="cap" id="cap13">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 13</p>
+    <h1>Quando o modelo falha</h1>
+    <p class="cap-sub">Viés, drift, regulação e como ler um artigo de IA</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Reconhecer os jeitos mais comuns de um modelo falhar depois que sai do artigo.</li>
+      <li>Entender como o viés entra pela escolha do desfecho e por que o modelo envelhece.</li>
+      <li>Saber quem regula a IA em saúde e levar cinco perguntas para qualquer artigo ou produto.</li>
+    </ul></div>
+  </div>
+
+  <h2>Cinco jeitos de um modelo falhar</h2>
+  <p>Esta última aula trata do que acontece quando o modelo sai do artigo e entra no hospital. E junta tudo o que você viu no curso para ler qualquer artigo de IA com olho crítico.</p>
+  <p>Há cinco jeitos frequentes de um modelo falhar. O <b>vazamento</b> é usar informação do futuro, algo que só existe depois do momento em que o modelo seria usado. O <b>atalho</b> é aprender a marca, não a doença. Os dois já apareceram no curso, nas Aulas 03 e 09.</p>
+  <p>O terceiro é a <b>população</b>: o modelo funciona onde foi feito e piora quando é testado em gente diferente. É por isso que a validação externa importa tanto. O quarto é o <b>drift</b>: o mundo mudou depois do treino. O quinto é o <b>fluxo</b>: o modelo é bom, mas o alerta chega tarde, para a pessoa errada ou vezes demais. Muitos modelos bons falham por esse motivo, que não tem nada de estatístico.</p>
+  <figure class="fig"><img src="fig/aula13/falhas.png" alt="Seis cards: vazamento, atalho, população, drift, fluxo e viés"><figcaption><b>Figura 13.1</b> Os cinco jeitos de falhar em cinco cards de borda cheia. O sexto card, de borda tracejada e título em verde, é o viés: ele não é mais um item da lista, atravessa todos os outros.</figcaption></figure>
+
+  <h2>Quando o desfecho escolhido carrega a desigualdade</h2>
+  <p>O exemplo mais citado de <b>viés algorítmico</b> em saúde é o estudo de Obermeyer e colegas, publicado na Science em 2019. Um algoritmo usado nos EUA para indicar cuidado extra previa gasto em saúde, como se gasto fosse necessidade.</p>
+  <p>O problema é que pacientes negros gastavam menos com o mesmo grau de doença. Resultado: com o mesmo escore, estavam mais doentes. O modelo não usava raça. O viés entrou pelo desfecho, porque gasto em saúde reflete acesso, não só doença.</p>
+  <p>A lição vale para qualquer projeto: a escolha do desfecho é uma decisão clínica e ética, não só técnica. E há uma ligação com a Aula 01. É o mesmo Obermeyer do ensaio Lost in Thought.</p>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>Tirar raça das variáveis não garante um modelo justo. Se o desfecho escolhido já carrega a desigualdade, como gasto ou uso de serviço, o modelo aprende essa desigualdade por outro caminho.</p></aside>
+
+  <h2>A média esconde quem fica para trás</h2>
+  <p>Um modelo com bom desempenho geral pode ir mal num grupo pequeno, e a média não mostra isso. Por isso a análise de <b>equidade</b> olha discriminação e calibração separadas por subgrupo: sexo, raça ou cor, idade, região, tipo de serviço. O alerta é simples: um grupo mal calibrado recebe decisões piores.</p>
+  <p>No Brasil, região e tipo de serviço (SUS, saúde suplementar) costumam pesar tanto quanto as variáveis demográficas.</p>
+
+  <h2>O modelo envelhece</h2>
+  <p><b>Drift</b> é a perda de desempenho com o tempo, sem ninguém mexer no modelo. Ele vem de três mudanças.</p>
+  <p>A <b>população muda</b>. Numa pandemia, por exemplo, quem chega ao hospital deixa de ser quem chegava no treino. A <b>prática muda</b>. Com uma nova diretriz, o tratamento novo muda o desfecho que o modelo previa. E o <b>registro muda</b>. Num novo sistema de prontuário, um campo some, outro muda de nome ou de unidade.</p>
+  <figure class="fig"><img src="fig/aula13/drift.png" alt="Três cards: a população muda, a prática muda, o registro muda"><figcaption><b>Figura 13.2</b> As três fontes de drift, cada uma com um exemplo em verde logo abaixo do título: pandemia, nova diretriz e novo sistema.</figcaption></figure>
+  <p>Por isso, implantar é o começo, não o fim: o modelo precisa de monitoramento contínuo. É o último passo do ciclo analítico da Aula 03, o monitoramento, que fecha de volta na pergunta clínica.</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Seu hospital vai contratar um alerta de sepse. Antes de assinar, pergunte ao fornecedor quem monitora o desempenho depois da implantação, com que frequência, e o que acontece quando ele cai. Se o hospital trocar de sistema de prontuário no ano seguinte, alguém precisa conferir se o modelo continua recebendo os mesmos dados.</p></aside>
+
+  <h2>Quem regula a IA em saúde</h2>
+  <p>A regulação muda rápido, então leia esta seção como um retrato de outubro de 2026, não como regra fixa.</p>
+  <p>No Brasil, a <b>Anvisa</b> trata do tema pela RDC 657/2022, sobre software como dispositivo médico. Software que influencia diagnóstico ou tratamento pode ser dispositivo médico e precisar de registro na Anvisa. No Congresso, o PL 2338/2023, o marco legal da IA, foi aprovado no Senado em dezembro de 2024; em outubro de 2026, aguardava o parecer do relator na Comissão Especial da Câmara.</p>
+  <p>Na União Europeia, o <b>AI Act</b> (2024) classifica a maior parte da IA médica como alto risco, com exigências de transparência e supervisão humana. Nos Estados Unidos, a <b>FDA</b> autoriza dispositivos com IA e aceita planos de mudança predeterminados (PCCP), que permitem atualizar o modelo dentro de regras aprovadas antes.</p>
+  <figure class="fig"><img src="fig/aula13/regulacao.png" alt="Quadro de duas colunas: onde e o quê"><figcaption><b>Figura 13.3</b> Quem regula e o quê, linha a linha: Anvisa, Congresso, União Europeia e FDA. O quadro mostra a situação em outubro de 2026.</figcaption></figure>
+
+  <h2>Cada tipo de estudo tem seu checklist</h2>
+  <p>Você não precisa decorar os checklists de leitura crítica. Precisa saber que existem e qual usar.</p>
+  <p>O <b>TRIPOD+AI</b> (BMJ, 2024) diz o que um artigo de modelo preditivo precisa relatar. O <b>PROBAST+AI</b> (BMJ, 2025) é a ferramenta para avaliar risco de viés e aplicabilidade de um modelo de predição. O <b>DECIDE-AI</b> (2022) trata dos primeiros testes no uso clínico real. O <b>CONSORT-AI</b> e o SPIRIT-AI (2020) tratam de ensaios clínicos randomizados com IA e de seus protocolos.</p>
+  <figure class="fig"><img src="fig/aula13/checklists.png" alt="Quatro cards: TRIPOD+AI, PROBAST+AI, DECIDE-AI e CONSORT-AI"><figcaption><b>Figura 13.4</b> Os quatro checklists em dois pares. Na linha de cima, os dois para modelos de predição: como relatar e como avaliar risco de viés. Na de baixo, os dois para estudos no uso clínico: primeiros testes e ensaios randomizados.</figcaption></figure>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Comece identificando o tipo de estudo. Se é desenvolvimento ou validação de um modelo preditivo, abra o TRIPOD+AI ao lado e confira se o artigo relata o que deveria. Se é um ensaio clínico com IA, a referência é o CONSORT-AI. O que falta no relato costuma ser exatamente onde mora o problema.</p></aside>
+
+  <h2>Cinco perguntas para qualquer artigo ou produto de IA</h2>
+  <p>Este é o resumo prático do curso inteiro. Vale guardar.</p>
+  <figure class="fig"><img src="fig/aula13/perguntas.png" alt="Lista numerada de cinco perguntas"><figcaption><b>Figura 13.5</b> As cinco perguntas numeradas de 01 a 05. Cada uma condensa uma parte do curso, do tempo e do desfecho até a comparação com o simples.</figcaption></figure>
+  <p><b>01. Qual é o t0 e qual é o desfecho? Faz sentido clínico?</b> Vem das Aulas 03 e 04, sobre tempo e vazamento.</p>
+  <p><b>02. Houve validação externa, em outro lugar ou tempo?</b> Vem da Aula 04, sobre separar sem vazar.</p>
+  <p><b>03. Mostraram calibração, além da AUROC?</b> Vem das Aulas 11 e 12.</p>
+  <p><b>04. O desempenho foi visto por subgrupo?</b> Vem desta aula, sobre equidade. Se não foi reportado, pergunte por quê.</p>
+  <p><b>05. Comparado com o quê? Com o médico, com um escore simples?</b> Vem da Aula 10: comece pelo simples.</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>Modelos falham por vazamento, atalho, população diferente, drift e fluxo, e o viés atravessa todos.</li>
+    <li>O viés pode entrar pelo desfecho, mesmo sem nenhuma variável de raça no modelo.</li>
+    <li>A média esconde subgrupos mal calibrados, e o modelo envelhece: implantar exige monitorar.</li>
+    <li>A regulação muda rápido, e cada tipo de estudo tem seu checklist de leitura.</li>
+    <li>As cinco perguntas resumem o curso: t0 e desfecho, validação externa, calibração, subgrupos e comparação com o simples.</li>
+  </ul></div>
+
+  <h2>De volta ao começo</h2>
+  <p>O curso começou com o ensaio Lost in Thought, da Aula 01, e com a imagem de exames, notas e imagens chegando a uma única consulta até transbordar. A ideia era que a medicina ficou complexa demais para caber numa única cabeça, e que a mente humana não dá conta de tudo sozinha.</p>
+  <p>Terminamos com o outro lado: a máquina também não. A IA ajuda a carregar esse peso, mas precisa de alguém que saiba perguntar se o número é verdadeiro, para quem ele vale e se ele muda a decisão. Saber avaliá-la é o que mantém o raciocínio clínico com você.</p>
+  <p>Obrigado por ter chegado até aqui. O lugar para continuar acompanhando o assunto é o app IA.med, em app.iamed.cc. E fica o convite: aplique as cinco perguntas no próximo artigo ou produto de IA que aparecer na sua frente.</p>
+</section>

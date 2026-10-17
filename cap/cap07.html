@@ -1,0 +1,57 @@
+<section class="cap" id="cap07">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 07</p>
+    <h1>SVM, KNN e Naive Bayes</h1>
+    <p class="cap-sub">Três clássicos: uma fronteira, uma vizinhança e uma conta de probabilidades</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Entender a ideia por trás do SVM, do KNN e do Naive Bayes sem nenhuma fórmula.</li>
+      <li>Reconhecer a armadilha da escala nos modelos que medem distância e como ela vira vazamento.</li>
+      <li>Saber quando cada um faz sentido e por que, em tabela de prontuário, eles valem mais como comparação.</li>
+    </ul></div>
+  </div>
+
+  <p>Antes do deep learning, três algoritmos dominavam boa parte da literatura, e eles ainda aparecem em muitos artigos. Cada um tem uma ideia simples. O SVM traça uma fronteira, o KNN olha os vizinhos e o Naive Bayes faz uma conta de probabilidades que você já conhece da beira do leito.</p>
+
+  <h2>A fronteira com a maior folga</h2>
+  <p>Pense em pacientes de dois grupos, com e sem a doença, desenhados num gráfico de duas variáveis. Muitas linhas diferentes conseguem separar os grupos. O SVM, sigla de support vector machine, escolhe a linha com a maior folga até os pacientes mais próximos de cada lado.</p>
+  <figure class="fig"><img src="fig/aula07/svm.png" alt="Pontos de dois grupos separados por uma linha com margens tracejadas"><figcaption><b>Figura 07.1</b> A linha clara é a fronteira; as tracejadas marcam a margem, a folga até os pacientes mais próximos. Os pontos circulados em amarelo são os vetores de suporte. Pontos ilustrativos.</figcaption></figure>
+  <p>Os pacientes da beira, circulados no desenho, se chamam vetores de suporte. São eles que definem a fronteira: se você apagar todos os outros, ela não muda. A intuição por trás da maior folga é que ela costuma generalizar melhor para pacientes novos. Uma fronteira que passa raspando nos pacientes de um dos grupos acerta a amostra, mas qualquer paciente novo um pouco diferente cai do lado errado. Com folga, sobra espaço para essa variação.</p>
+
+  <h2>E quando nenhuma reta separa?</h2>
+  <p>Às vezes, os grupos estão arranjados de um jeito que nenhuma reta resolve. Imagine um grupo concentrado no centro e outro espalhado em volta. O truque do SVM para esse caso se chama kernel.</p>
+  <figure class="fig"><img src="fig/aula07/kernel.png" alt="Pontos em anel que passam a ser separados por um plano após o kernel"><figcaption><b>Figura 07.2</b> À esquerda, um grupo no centro e outro em volta: nenhuma reta separa. À direita, com uma nova dimensão, os pontos do centro sobem, os de fora ficam embaixo e um plano reto passa entre eles. Desenho ilustrativo.</figcaption></figure>
+  <p>O kernel acrescenta uma dimensão, por exemplo a distância até o centro. Nessa nova dimensão, um plano reto passa a separar o que antes era inseparável. A elegância está em fazer isso sem calcular as novas dimensões explicitamente. O SVM vai bem com muitas variáveis e poucos pacientes, como em estudos de expressão gênica. Os pontos fracos são dois: ele não entrega probabilidade de forma natural, o que exige um ajuste extra, e é difícil de explicar.</p>
+
+  <h2>Diga-me com quem andas</h2>
+  <p>O KNN, de k-nearest neighbors, os k vizinhos mais próximos, é o raciocínio por casos parecidos. É o "já vi pacientes assim" transformado em algoritmo. Ele funciona em três passos: mede a distância do paciente novo até todos os pacientes da base, separa os k mais parecidos e deixa a maioria decidir.</p>
+  <figure class="fig"><img src="fig/aula07/knn.png" alt="Paciente novo cercado pelos cinco vizinhos mais próximos"><figcaption><b>Figura 07.3</b> O losango amarelo é o paciente novo. Dentro do círculo tracejado, os 5 vizinhos mais próximos: 4 evoluíram mal e 1 evoluiu bem. A previsão segue a maioria. Pontos ilustrativos.</figcaption></figure>
+  <p>O valor de k é escolhido na validação. Um k pequeno fica sensível a ruído; um k grande borra as diferenças. Há uma particularidade: o KNN não tem treino de verdade. O modelo é a própria base. Por isso ele fica lento em bases grandes e exige cuidado com privacidade, já que os dados dos pacientes precisam estar disponíveis a cada previsão.</p>
+
+  <h2>Sem padronizar, o número maior manda na distância</h2>
+  <p>KNN e SVM medem distância entre pacientes, e isso esconde uma armadilha. A variável com números grandes domina a conta, mesmo que seja menos importante clinicamente.</p>
+  <figure class="fig"><img src="fig/aula07/escala.png" alt="Barras comparando a amplitude de idade e creatinina antes e depois de padronizar"><figcaption><b>Figura 07.4</b> Sem padronizar, a barra da idade ocupa quase toda a régua e a da creatinina quase some na conta. Depois da padronização, as duas ficam do mesmo tamanho.</figcaption></figure>
+  <p>Veja o exemplo do desenho. A idade, de 20 a 90 anos, varia 70 unidades. A creatinina, de 0,5 a 3 mg/dL, varia 2,5. Na mesma régua, a creatinina fica quase 30 vezes menor, e uma diferença clinicamente enorme de função renal pesa menos na distância do que alguns anos de idade. A solução é padronizar todas as variáveis para a mesma escala antes de treinar.</p>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>A padronização precisa ser calculada só com os dados de treino. Calcular médias e desvios na base inteira, incluindo o teste, deixa informação do teste escapar para o modelo. É uma forma discreta de vazamento, e infla o desempenho sem que ninguém perceba.</p></aside>
+
+  <h2>O raciocínio bayesiano, simplificado</h2>
+  <p>O Naive Bayes é o algoritmo mais familiar para um médico, porque reproduz o raciocínio com razões de verossimilhança: probabilidade pré-teste, achado, probabilidade pós-teste. Parte da prevalência, soma o primeiro achado, por exemplo febre, depois o segundo, calafrio, e chega a uma probabilidade final.</p>
+  <figure class="fig"><img src="fig/aula07/bayes.png" alt="Sequência de caixas da prevalência à probabilidade final passando por febre e calafrio"><figcaption><b>Figura 07.5</b> A barra começa pequena na prevalência e cresce a cada achado, febre e depois calafrio, até a probabilidade final. Barras ilustrativas, sem números.</figcaption></figure>
+  <p>O "ingênuo" do nome está em multiplicar os achados como se um não tivesse relação com o outro. Febre e calafrio andam juntos, então a probabilidade sobe mais do que deveria. Mesmo assim, o método funciona bem para classificar texto, como na triagem de notas clínicas. O ponto fraco são as probabilidades extremas, perto de 0 ou de 1. Para decidir com base no número, é preciso recalibrar.</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Você já faz Naive Bayes de cabeça quando soma achados de exame físico para estimar a chance de um diagnóstico. O erro é o mesmo: contar duas vezes achados que dizem a mesma coisa. Um modelo que trata sinais correlacionados como independentes vai parecer mais confiante do que deveria.</p></aside>
+
+  <h2>Quando cada um faz sentido</h2>
+  <p>O SVM é indicado com muitas variáveis e poucos casos, e exige cuidado com escala, probabilidade e explicação. O KNN serve ao raciocínio por casos parecidos, mas cobra escala, lentidão e privacidade. O Naive Bayes funciona com texto, bases pequenas e quando se precisa de rapidez, e falha nas probabilidades extremas.</p>
+  <p>Em tabela de prontuário, os três raramente superam a regressão e o boosting das aulas anteriores. Essa é uma tendência geral, não um resultado medido aqui: numa revisão sistemática de modelos de predição clínica, métodos como SVM, árvores e redes neurais não mostraram vantagem sobre a regressão logística (Christodoulou e colaboradores, 2019). Eles valem, sobretudo, como comparação.</p>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Quando um estudo compara oito algoritmos e escolhe o melhor, pergunte se a comparação foi feita no mesmo conjunto de teste e com a mesma preparação de dados. Se o artigo usa KNN ou SVM, procure se houve padronização e se ela foi calculada só no treino.</p></aside>
+
+  <h2>O que fica</h2>
+  <p>O SVM traça a fronteira, o KNN olha os vizinhos e o Naive Bayes multiplica probabilidades. Os dois primeiros exigem padronizar a escala. Na próxima aula, a pergunta muda: e quando não há desfecho rotulado, ou quando o que importa é o tempo até ele?</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>O SVM escolhe a fronteira com a maior folga, definida pelos vetores de suporte, e usa o kernel quando nenhuma reta separa.</li>
+    <li>O KNN prevê pela maioria dos k pacientes mais parecidos e não tem treino de verdade.</li>
+    <li>KNN e SVM medem distância: sem padronizar, a variável de número maior manda, e padronizar na base inteira é vazamento.</li>
+    <li>O Naive Bayes atualiza a probabilidade a cada achado, mas trata achados correlacionados como independentes.</li>
+    <li>Em tabela de prontuário, os três raramente superam regressão e boosting e valem como comparação.</li>
+  </ul></div>
+</section>

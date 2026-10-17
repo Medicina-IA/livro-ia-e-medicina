@@ -1,0 +1,58 @@
+<section class="cap" id="cap11">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 11</p>
+    <h1>Discriminação</h1>
+    <p class="cap-sub">Matriz de confusão, AUROC e AUPRC</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Ler uma matriz de confusão e tirar dela sensibilidade, especificidade, VPP e VPN.</li>
+      <li>Entender por que o limiar é uma decisão clínica e o que a curva ROC resume.</li>
+      <li>Saber quando olhar a AUPRC e por que AUROC alta não basta.</li>
+    </ul></div>
+  </div>
+
+  <h2>Três perguntas para avaliar um modelo</h2>
+  <p>Começa aqui a parte de avaliação: como saber se um modelo presta. Toda avaliação séria responde a três perguntas. A <b>discriminação</b> pergunta se o modelo separa quem tem de quem não tem o desfecho. A <b>calibração</b> pergunta se o risco que ele diz é o risco real. A <b>utilidade</b> pergunta se usar o modelo melhora a decisão.</p>
+  <figure class="fig"><img src="fig/aula11/discriminar.png" alt="Três cards: discriminação, calibração e utilidade"><figcaption><b>Figura 11.1</b> As três perguntas da avaliação. O card destacado, a discriminação, é o assunto desta aula; calibração e utilidade ficam para a próxima.</figcaption></figure>
+  <p>Um modelo pode ir bem numa e mal nas outras. Por isso as três precisam aparecer em qualquer avaliação. Esta aula trata da primeira. Discriminar é ordenar: quem tem o desfecho deveria receber escore maior do que quem não tem.</p>
+
+  <h2>A matriz de confusão</h2>
+  <p>Imagine 1.000 pacientes, dos quais 100 têm o desfecho. Os números são ilustrativos, escolhidos para as contas fecharem. A prevalência é de 10%.</p>
+  <p>O modelo, num limiar escolhido, acerta 80 dos 100 doentes e 810 dos 900 sem o desfecho. E erra de dois jeitos: deixa passar 20 doentes e dispara 90 alarmes falsos.</p>
+  <figure class="fig"><img src="fig/aula11/matriz.png" alt="Matriz dois por dois com 80, 90, 20 e 810"><figcaption><b>Figura 11.2</b> A matriz de confusão do exemplo ilustrativo. As colunas dizem quem tem ou não tem o desfecho; as linhas, o que o modelo disse. Os acertos ficam em verde cheio (80 verdadeiros positivos e 810 verdadeiros negativos) e os erros com número em amarelo (90 falsos positivos e 20 falsos negativos).</figcaption></figure>
+  <p>Guarde esta tabela. Toda métrica de discriminação sai dela.</p>
+
+  <h2>A mesma tabela, quatro leituras</h2>
+  <p>A <b>sensibilidade</b> é 80%: 80 de 100 doentes detectados. A <b>especificidade</b> é 90%: 810 de 900 sem o desfecho corretamente negativos. Essas duas olham para a coluna. Dado que o paciente tem, ou não tem, o desfecho, o modelo acertou?</p>
+  <p>O <b>VPP</b>, valor preditivo positivo, é 47%: dos 170 alertas, só 80 eram reais. O <b>VPN</b>, valor preditivo negativo, é 98%: 810 de 830 negativos corretos (97,6%, arredondado). Essas duas olham para a linha. Dado o que o modelo disse, quanto disso é verdade? É o que o plantonista sente quando o alerta toca.</p>
+  <figure class="fig"><img src="fig/aula11/metricas.png" alt="Quatro números: 80%, 90%, 47% e 98%"><figcaption><b>Figura 11.3</b> Quatro leituras da mesma matriz ilustrativa. O VPP, em amarelo, é o número que destoa: com 90% de especificidade, mais da metade dos alertas é falsa.</figcaption></figure>
+  <p>Repare na distância entre a especificidade alta e o VPP baixo. Quem puxa o VPP para baixo é a prevalência baixa. A mensagem central é esta: o mesmo modelo, num hospital com prevalência diferente, terá VPP diferente.</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Um alerta de deterioração vendido com "90% de especificidade" pode, num serviço onde o evento é raro, gerar mais alarmes falsos do que verdadeiros. Antes de implantar, faça a conta com a prevalência do seu serviço: é o VPP que vai dizer quantas vezes a equipe será chamada à toa.</p></aside>
+
+  <h2>Quem escolhe o limiar escolhe o erro</h2>
+  <p>O modelo não diz sim ou não. Ele dá um escore. Sensibilidade e especificidade só existem depois que alguém escolhe o <b>limiar</b> a partir do qual o escore vira alerta.</p>
+  <p>Com limiar baixo, o modelo alerta mais: sobe a sensibilidade, perde poucos doentes, mas gera mais alarme falso. Com limiar alto, alerta menos: sobe a especificidade, poupa a equipe, mas deixa doentes passarem. O limiar é uma decisão clínica, não estatística.</p>
+  <p>A triagem de doença grave tolera mais falso positivo. Já um alerta que interrompe a equipe toda hora vira <b>fadiga de alarme</b>, e alerta ignorado não protege ninguém.</p>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>Diante de qualquer produto, pergunte quem definiu o limiar e com base em quê. Sensibilidade e especificidade divulgadas valem para um limiar específico. Mudou o limiar, mudaram os números.</p></aside>
+
+  <h2>Todos os limiares numa curva só</h2>
+  <p>A <b>curva ROC</b> junta todos os limiares possíveis num gráfico. No eixo x fica 1 menos a especificidade; no eixo y, a sensibilidade. Cada ponto da curva é um limiar, e andar na curva é trocar sensibilidade por especificidade.</p>
+  <figure class="fig"><img src="fig/aula11/roc.png" alt="Curva ROC acima da diagonal tracejada"><figcaption><b>Figura 11.4</b> Uma curva ROC ilustrativa. A diagonal tracejada é o acaso. Quanto mais a curva verde se afasta dela em direção ao canto superior esquerdo, melhor o modelo separa doentes de não doentes.</figcaption></figure>
+  <p>A área sob essa curva, a <b>AUROC</b> (também chamada estatística C), resume a capacidade de ordenar sem escolher limiar. A interpretação mais útil é a probabilística: sorteie um doente e um não doente. A AUROC é a chance de o modelo dar escore maior ao doente, ou seja, de ordenar os dois do jeito certo. O valor 0,5 é o acaso, a diagonal. O valor 1,0 é a separação perfeita.</p>
+
+  <h2>Quando o desfecho é raro, olhe a precisão</h2>
+  <p>A AUROC tem um ponto cego. Em desfecho raro, ela pode parecer ótima enquanto quase todo alerta é falso. É aí que entra a <b>curva precisão-recall</b>. Ela troca o eixo da especificidade pela <b>precisão</b>, que é o próprio VPP e sente a prevalência. A curva mostra quantos alertas são reais a cada nível de sensibilidade.</p>
+  <p>A diferença está na linha de base. Na AUROC, o acaso vale 0,5, qualquer que seja a prevalência. Na <b>AUPRC</b>, a área sob a curva precisão-recall, o acaso vale a prevalência. Num exemplo com 2% de casos, a linha de base é 0,02.</p>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Se o artigo reporta AUPRC, compare com a prevalência, não com 0,5. Se o desfecho é raro e o artigo mostra só AUROC, procure o VPP no limiar proposto. E confira se a matriz de confusão aparece em algum lugar, mesmo no material suplementar: é dela que tudo sai.</p></aside>
+
+  <h2>AUROC alto não basta</h2>
+  <p>Um modelo pode ordenar bem os pacientes e ainda errar o tamanho do risco. A discriminação não diz nada sobre calibração nem sobre utilidade.</p>
+  <p>Faça um exercício mental. Pegue um modelo e dobre todos os riscos que ele dá. A AUROC fica exatamente igual, porque a ordem dos pacientes não muda. Mas um paciente com risco real de 10% passaria a ouvir 20%, e isso muda conduta. Por isso a próxima aula trata de calibração: o risco que o modelo diz é o risco real? E usar o modelo muda a decisão?</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>Avaliar um modelo exige três perguntas: discriminação, calibração e utilidade.</li>
+    <li>Sensibilidade e especificidade olham a coluna; VPP e VPN olham a linha, e o VPP cai quando a prevalência é baixa.</li>
+    <li>O limiar é uma decisão clínica e define quais erros você aceita.</li>
+    <li>A AUROC é a chance de ordenar certo um doente e um não doente; em desfecho raro, compare a AUPRC com a prevalência.</li>
+    <li>Ordenar bem não é acertar o tamanho do risco.</li>
+  </ul></div>
+</section>

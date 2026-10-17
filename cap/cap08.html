@@ -1,0 +1,62 @@
+<section class="cap" id="cap08">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 08</p>
+    <h1>Sem rótulo e com tempo</h1>
+    <p class="cap-sub">Grupos, mapas e sobrevida: quando a pergunta não é só sim ou não</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Entender clusterização e redução de dimensão, e por que os grupos que elas encontram precisam de prova clínica.</li>
+      <li>Reconhecer quando a pergunta é o tempo até o evento e o que é censura.</li>
+      <li>Situar Kaplan-Meier, Cox e as versões de machine learning para sobrevida.</li>
+    </ul></div>
+  </div>
+
+  <p>Até aqui, todos os modelos aprendiam a prever um desfecho conhecido. Esta aula trata de duas famílias que fogem desse formato. A primeira é o aprendizado não supervisionado, usado quando não existe desfecho para aprender: clusterização e redução de dimensão. A segunda é a análise de sobrevida, usada quando a pergunta é quando o evento acontece, e não só se ele acontece.</p>
+
+  <h2>Sem desfecho, o modelo procura grupos</h2>
+  <p>Na clusterização não há coluna de desfecho. O modelo olha apenas as variáveis e procura estrutura: junta pacientes parecidos e separa os diferentes. O algoritmo mais comum é o k-means. Você escolhe quantos grupos quer, o k, o algoritmo posiciona os centros e atribui cada paciente ao centro mais próximo.</p>
+  <figure class="fig"><img src="fig/aula08/grupos.png" alt="Três grupos de pontos, cada um com seu centro"><figcaption><b>Figura 08.1</b> Cada forma é um grupo, e o ponto claro no meio de cada círculo é o centro. Cada paciente pertence ao centro mais próximo. Pontos ilustrativos.</figcaption></figure>
+  <p>O uso típico é descobrir subfenótipos de uma doença que parece uma só, como em síndromes heterogêneas do tipo sepse e SDRA. Na sepse, uma coorte de mais de 20 mil pacientes gerou quatro fenótipos clínicos, de alfa a delta, ligados a desfechos diferentes (Seymour e colaboradores, 2019). Na SDRA, dados de dois ensaios randomizados mostraram dois subfenótipos, um deles hiperinflamatório e de maior mortalidade (Calfee e colaboradores, 2014). Assim como no KNN da aula anterior, a escala das variáveis importa: é preciso padronizar antes.</p>
+
+  <h2>O algoritmo sempre acha grupos, mesmo quando eles não existem</h2>
+  <p>Este é o cuidado central da clusterização. Se você pedir k = 4, o algoritmo entrega quatro grupos, mesmo de pontos jogados ao acaso. Ele não tem como dizer que os grupos não existem.</p>
+  <figure class="fig"><img src="fig/aula08/sempre.png" alt="Pontos espalhados ao acaso cortados em quatro quadrantes"><figcaption><b>Figura 08.2</b> Os pontos foram espalhados sem nenhum padrão. Mesmo assim, as linhas tracejadas cortam o espaço em quatro grupos numerados. Pontos ao acaso, ilustrativos.</figcaption></figure>
+  <p>Clusterização não tem resposta certa para conferir, e por isso é fácil se enganar. A prova é clínica. Os grupos mudam prognóstico ou tratamento? Aparecem de novo em outra base? Grupo que não muda prognóstico nem tratamento é curiosidade estatística, não fenótipo clínico.</p>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Diante de um estudo que descreve novos fenótipos, faça três perguntas. Os grupos são estáveis quando os dados são reamostrados? Eles aparecem numa base externa? Mudam alguma conduta? Se a resposta às três for não, o estudo gerou uma hipótese, não um achado clínico.</p></aside>
+
+  <h2>Resumir muitas variáveis em poucas</h2>
+  <p>Cem exames por paciente não cabem num gráfico. Num espaço de muitas dimensões, os grupos ficam misturados aos nossos olhos. A redução de dimensão projeta tudo em dois eixos, e os grupos aparecem.</p>
+  <figure class="fig"><img src="fig/aula08/reducao.png" alt="Cubo com pontos misturados projetado num plano com dois grupos separados"><figcaption><b>Figura 08.3</b> O cubo representa o espaço de 100 variáveis, onde os pontos verdes e amarelos parecem misturados. Projetados em 2 dimensões, formam dois grupos distintos. Desenho ilustrativo.</figcaption></figure>
+  <p>Há duas técnicas principais. O PCA cria poucos eixos novos, combinações lineares das variáveis, ordenados pela variação que explicam. Ele é útil também como etapa antes de outro modelo. O UMAP, e o t-SNE, que é parecido, produzem um mapa que mantém juntos os vizinhos. São ótimos para visualizar e muito comuns em dados de células e de expressão gênica.</p>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>O UMAP preserva bem a vizinhança local, mas o tamanho das ilhas e a distância entre ilhas afastadas não querem dizer nada. Duas ilhas longe uma da outra no mapa não são necessariamente doenças mais diferentes. Não tire conclusão clínica só do desenho.</p></aside>
+
+  <h2>Quando importa quando, não só se</h2>
+  <p>Agora a segunda família. Pense em dois pacientes: A morreu no mês 2, B no mês 11. Se a pergunta for binária, "morreu em 1 ano?", os dois viram sim, e a diferença enorme entre eles se perde.</p>
+  <figure class="fig"><img src="fig/aula08/tempo.png" alt="Comparação entre pergunta binária e pergunta de sobrevida para dois pacientes"><figcaption><b>Figura 08.4</b> À esquerda, a pergunta binária: mês 2 e mês 11 viram o mesmo sim. À direita, a pergunta de sobrevida: o tempo de cada paciente entra na conta. Exemplo ilustrativo com dois pacientes.</figcaption></figure>
+  <p>Na pergunta de sobrevida, o tempo de cada um entra no desfecho. O evento pode ser óbito, recidiva, reinternação ou diálise. E existe um problema que a classificação não resolve bem: pacientes que saem do acompanhamento antes do evento.</p>
+
+  <h2>Nem todo mundo é seguido até o fim</h2>
+  <p>Num estudo real, alguns pacientes têm o evento, outros perdem o seguimento e outros chegam ao fim do estudo sem o evento. Esses dois últimos são censurados: sabemos que não tiveram o evento até ali, mas não sabemos o que aconteceu depois.</p>
+  <figure class="fig"><img src="fig/aula08/censura.png" alt="Barras de seguimento de quatro pacientes com eventos e censuras"><figcaption><b>Figura 08.5</b> O comprimento de cada barra é o tempo de seguimento. A e D tiveram o evento (bola cheia). B perdeu o seguimento e C chegou ao fim do estudo sem o evento (bola vazia): os dois são censurados. Tempos ilustrativos.</figcaption></figure>
+  <p>Jogar fora os censurados, ou tratá-los como "sem evento", enviesa o resultado. Os métodos de sobrevida usam essa informação parcial: cada paciente contribui enquanto está sendo observado. Há um pressuposto importante: a censura não pode estar ligada ao prognóstico. Se os mais graves somem do seguimento, o método erra.</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Num ambulatório de oncologia, os pacientes que pioram muito podem passar a ser acompanhados em outro serviço e sumir da sua base. Se você estimar a sobrevida só com quem ficou, ela vai parecer melhor do que é. Antes de confiar numa curva, pergunte por que os pacientes saíram do seguimento.</p></aside>
+
+  <h2>Do clássico ao machine learning</h2>
+  <p>O Kaplan-Meier é descritivo: desenha a curva em degraus e compara grupos, com o teste de log-rank, mas não ajusta por outras variáveis. O modelo de Cox é o mais usado na literatura clínica para sobrevida e funciona como a "logística" da sobrevida: ajusta por variáveis, e os pesos viram hazard ratio. Ele pressupõe riscos proporcionais, isto é, que o efeito é constante no tempo, e vale checar isso. As versões de machine learning, como random survival forest, gradient boosting para sobrevida e redes como a DeepSurv, capturam não linearidade, como as árvores da Aula 06.</p>
+  <figure class="fig"><img src="fig/aula08/modelos.png" alt="Três cartões: curvas em degraus, gráfico de hazard ratios e árvores com curva"><figcaption><b>Figura 08.6</b> À esquerda, duas curvas de Kaplan-Meier em degraus. No centro, um gráfico de hazard ratios do Cox: à direita da linha 1, mais risco; à esquerda, menos. À direita, árvores sobre uma curva, as versões de machine learning. Ícones ilustrativos, sem dados.</figcaption></figure>
+  <p>A avaliação desses modelos tem métricas próprias, como o C-index, que serão tratadas no nível avançado.</p>
+
+  <h2>Quando usar e onde falha</h2>
+  <p>O aprendizado não supervisionado é bom para gerar hipótese e fraco como prova. É um ótimo começo de pesquisa e um péssimo fim. Antes de mudar conduta por causa de um fenótipo, ele precisa reaparecer em outra base e mudar desfecho. Sem gabarito, o modelo acha os grupos; quem diz o que eles significam é o clínico.</p>
+  <p>A análise de sobrevida é obrigatória quando o tempo importa e há censura, e exige censura não ligada ao prognóstico. Se um artigo transforma tempo até o evento em sim ou não e descarta quem saiu do seguimento, desconfie. Por fim, eventos competitivos, como morrer de outra causa antes do evento de interesse, exigem métodos próprios.</p>
+
+  <h2>O que fica</h2>
+  <p>Sem rótulo, grupos e mapas servem para explorar. Com tempo e censura, entram os métodos de sobrevida. A próxima aula fecha o nível intermediário com as redes neurais e o salto da imagem médica.</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>Sem desfecho, a clusterização procura grupos, mas sempre acha algum, mesmo em pontos ao acaso.</li>
+    <li>Um fenótipo só vale se for estável, reaparecer em outra base e mudar conduta.</li>
+    <li>PCA e UMAP resumem muitas variáveis em poucas; no UMAP, distância entre ilhas não quer dizer nada.</li>
+    <li>Quando o tempo importa e há censura, a análise de sobrevida é obrigatória.</li>
+    <li>Kaplan-Meier descreve, Cox ajusta por variáveis e as versões de machine learning capturam não linearidade.</li>
+  </ul></div>
+</section>

@@ -1,0 +1,8 @@
+[
+{"termo": "RNN", "def": "Rede neural recorrente, que lê uma sequência um passo de cada vez e leva adiante um resumo do que já viu."},
+{"termo": "LSTM", "def": "Variação da rede recorrente com portas que decidem o que guardar e o que esquecer, o que melhora a memória em sequências longas."},
+{"termo": "Transformer", "def": "Arquitetura de 2017 que troca a leitura passo a passo pela atenção e é a base dos modelos de linguagem atuais."},
+{"termo": "Atenção", "def": "Mecanismo em que cada palavra calcula o quanto deve olhar para cada outra palavra do texto, mesmo as distantes."},
+{"termo": "LLM", "def": "Modelo de linguagem de grande porte, treinado para prever a próxima palavra em volumes enormes de texto."},
+{"termo": "RLHF", "def": "Aprendizado por reforço com preferência humana: pessoas avaliam respostas e o modelo aprende o que elas preferem."}
+]

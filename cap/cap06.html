@@ -1,0 +1,60 @@
+<section class="cap" id="cap06">
+  <div class="cap-abre">
+    <p class="cap-num">Aula 06</p>
+    <h1>Árvores e ensembles</h1>
+    <p class="cap-sub">Perguntas em sequência, e o que acontece quando juntamos centenas delas</p>
+    <div class="cap-objetivos"><p class="rot">Nesta aula você vai</p><ul>
+      <li>Entender como uma árvore de decisão cresce, pergunta por pergunta, e por que ela decora a amostra.</li>
+      <li>Diferenciar random forest, com árvores em paralelo, de gradient boosting, com árvores em fila.</li>
+      <li>Saber quando esses modelos valem a pena e quais armadilhas eles trazem para a leitura de artigos.</li>
+    </ul></div>
+  </div>
+
+  <p>Na aula anterior, o modelo era uma soma. Mas nem toda relação clínica se comporta como soma: às vezes o peso de uma variável depende de outra. Para esses casos existem as árvores. Esta aula cobre três modelos da mesma família, a árvore de decisão (CART), a floresta aleatória (random forest) e o gradient boosting. São os que mais aparecem em artigos com dados tabulares de prontuário.</p>
+
+  <h2>Perguntas de sim ou não, em sequência</h2>
+  <p>Uma árvore de decisão é um fluxograma. Cada nó faz uma pergunta de sim ou não, e cada folha, no fim de um caminho, dá uma resposta. É o formato mais parecido com um protocolo clínico, e por isso é o mais fácil de explicar a um colega.</p>
+  <figure class="fig"><img src="fig/aula06/arvore.png" alt="Árvore com perguntas sobre lactato e pressão levando a três níveis de risco"><figcaption><b>Figura 06.1</b> A primeira pergunta é sobre o lactato. Só para quem responde sim aparece a segunda, sobre a PAS. As folhas dão risco alto, intermediário ou baixo. Exemplo ilustrativo: os cortes não vêm de nenhum escore validado.</figcaption></figure>
+  <p>Repare num detalhe. A pergunta sobre pressão só aparece para quem tem lactato alto. Ou seja, a árvore capturou uma interação sozinha, sem que ninguém precisasse escrevê-la, ao contrário do que vimos na regressão.</p>
+
+  <h2>Cada pergunta separa um grupo misturado</h2>
+  <p>Como a árvore escolhe as perguntas? Ela parte de um grupo misturado de pacientes, metade com o desfecho e metade sem. Testa todas as variáveis e todos os cortes possíveis, e fica com o corte que deixa os dois grupos resultantes mais homogêneos, mais puros. A medida dessa pureza costuma ser o índice de Gini ou a entropia.</p>
+  <figure class="fig"><img src="fig/aula06/cresce.png" alt="Grupo misturado dividido em dois grupos mais puros por uma pergunta"><figcaption><b>Figura 06.2</b> À esquerda, pacientes com e sem o desfecho misturados. Depois do corte, o grupo do sim fica quase todo com pontos cheios e o do não quase todo com pontos vazios. Desenho ilustrativo.</figcaption></figure>
+  <p>Depois, o processo se repete dentro de cada grupo, até uma regra de parada, como profundidade máxima ou um número mínimo de pacientes por folha. Há uma característica importante: a árvore é gulosa. Escolhe o melhor corte agora, sem olhar o que vem depois.</p>
+
+  <h2>Árvore funda demais decora</h2>
+  <p>Se você deixar a árvore crescer sem limite, ela acaba criando uma folha para quase cada paciente. Acerta tudo no treino e erra no paciente novo. É o sobreajuste (overfitting): o modelo aprende as particularidades da amostra, não o padrão da doença.</p>
+  <figure class="fig"><img src="fig/aula06/decora.png" alt="Curvas de erro no treino e no teste conforme a profundidade da árvore"><figcaption><b>Figura 06.3</b> Com mais profundidade, o erro no treino (verde) só cai. O erro no teste (amarelo) cai, chega ao mínimo no ponto ideal e volta a subir. Curvas ilustrativas.</figcaption></figure>
+  <p>Árvore rasa demais erra no treino e no teste. Árvore funda demais acerta o treino e erra o paciente novo. O ponto ideal é escolhido na validação, nunca no teste. Os remédios são limitar a profundidade, exigir um mínimo de pacientes por folha e podar. E há um remédio mais forte: usar muitas árvores.</p>
+
+  <h2>Muitas árvores diferentes, um voto</h2>
+  <p>A random forest funciona como uma junta médica: várias opiniões independentes erram menos que uma só. Para isso, as árvores precisam ser diferentes entre si, e a floresta garante isso com dois sorteios. Cada árvore vê uma amostra sorteada de pacientes e, a cada pergunta, só algumas variáveis sorteadas.</p>
+  <figure class="fig"><img src="fig/aula06/floresta.png" alt="Três árvores de formatos diferentes alimentando um voto da maioria"><figcaption><b>Figura 06.4</b> Três árvores, cada uma treinada numa amostra diferente e com um formato próprio, convergem para o voto da maioria.</figcaption></figure>
+  <p>Cada árvore pode até decorar um pouco a sua amostra. No voto, esse ruído se cancela. O preço é que deixa de existir um fluxograma único para mostrar ao colega.</p>
+
+  <h2>Árvores em fila, cada uma corrige a anterior</h2>
+  <p>O gradient boosting usa árvores de outro jeito. Na floresta, elas trabalham em paralelo, independentes. No boosting, trabalham em série: cada nova árvore se concentra no que a anterior errou. A previsão final é a soma de todas.</p>
+  <figure class="fig"><img src="fig/aula06/boosting.png" alt="Árvores pequenas em sequência com cada vez menos erros restantes"><figcaption><b>Figura 06.5</b> Da árvore 1 até centenas depois, cada uma aprende o erro da anterior. Os pontos amarelos são os erros que ainda sobram, e diminuem a cada passo. Desenho ilustrativo.</figcaption></figure>
+  <p>Cada árvore é pequena e fraca; juntas, ficam muito fortes. Nos artigos, você vai encontrar os nomes XGBoost, LightGBM e CatBoost. Em dados tabulares, o boosting costuma estar entre os melhores desempenhos. Num comparativo com 45 conjuntos de dados tabulares, modelos de árvore como XGBoost e random forest seguiram à frente das redes neurais profundas em bases de tamanho médio (Grinsztajn e colaboradores, 2022). O risco é que, com árvores demais, o modelo volta a decorar. A taxa de aprendizado e a parada antecipada controlam isso.</p>
+
+  <h2>Três árvores, três perfis</h2>
+  <p>Numa comparação qualitativa, sem resultado de estudo por trás, os três modelos se distribuem assim. A árvore única vira um fluxograma, útil para comunicar e para gerar regras simples, mas decora fácil e raramente é o melhor modelo. A random forest é robusta e funciona bem com pouca configuração, mas é difícil de explicar. O boosting costuma ser o mais forte em tabela, mas exige ajuste cuidadoso dos hiperparâmetros e validação honesta. Em resumo, os ensembles trocam um pouco de explicação por muito desempenho.</p>
+  <aside class="box pratica"><p class="rot">Na prática</p><p>Se a sua equipe quer um fluxograma para a triagem que caiba num cartão, uma árvore rasa pode servir, sabendo que ela perde desempenho. Se o objetivo é um alerta automático no prontuário, em que ninguém precisa seguir as perguntas à mão, um ensemble tende a acertar mais. A escolha depende de quem vai usar a saída e como.</p></aside>
+
+  <h2>Quando usar e onde falha</h2>
+  <p>A indicação são tabelas de prontuário com muitas variáveis, relações curvas e interações que você não saberia escrever à mão, e que a regressão não captura sem ajuda.</p>
+  <p>As limitações merecem atenção. A primeira é a famosa "importância de variável". O gráfico de barras que os artigos mostram indica o que ajudou a prever, não o que causa o desfecho. A segunda é a calibração: as probabilidades de florestas e de boosting muitas vezes precisam ser recalibradas antes do uso clínico. A terceira é que árvores não extrapolam. Fora da faixa de valores vista no treino, a previsão fica parada no último valor conhecido.</p>
+  <aside class="box cuidado"><p class="rot">Cuidado</p><p>Quando um artigo destaca as variáveis mais importantes do modelo, resista à leitura causal. Uma variável pode aparecer no topo apenas porque acompanha a gravidade, ou porque reflete uma conduta já tomada. Importância de variável descreve o modelo, não a fisiopatologia.</p></aside>
+  <aside class="box artigo"><p class="rot">Para ler um artigo</p><p>Antes de comemorar um boosting com desempenho alto, procure três coisas: se ele foi comparado com uma regressão logística bem feita, como na Aula 05; se a escolha dos hiperparâmetros usou a validação e não o teste; e se o artigo mostra a calibração das probabilidades, não só a discriminação.</p></aside>
+
+  <h2>O que fica</h2>
+  <p>A árvore explica, a floresta estabiliza, o boosting aperta o desempenho. Na próxima aula, três algoritmos clássicos que ainda aparecem muito em artigos: SVM, KNN e Naive Bayes.</p>
+
+  <div class="resumo"><p class="rot">Em resumo</p><ul>
+    <li>Uma árvore de decisão é um fluxograma de perguntas de sim ou não e captura interações sozinha.</li>
+    <li>Árvore funda demais decora a amostra; o ponto ideal se escolhe na validação.</li>
+    <li>Random forest junta árvores diferentes num voto; boosting soma árvores em fila, cada uma corrigindo a anterior.</li>
+    <li>Ensembles trocam um pouco de explicação por muito desempenho em dados tabulares.</li>
+    <li>Importância de variável não é causa, a probabilidade pode sair mal calibrada e a comparação com a regressão logística é obrigatória.</li>
+  </ul></div>
+</section>
